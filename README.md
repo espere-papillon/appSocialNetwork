@@ -1,1 +1,1 @@
-https://github.com/espere-papillon/appSocialNetwork
+https://github.com/espere-papillon/appSocialNetwork.git
