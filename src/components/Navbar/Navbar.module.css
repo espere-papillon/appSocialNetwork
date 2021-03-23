@@ -3,6 +3,10 @@
     background-color: navy;
 }
 
-.item {
+.item a {
     color: white;
+}
+
+.item a.activeLink {
+    color: gold;
 }
