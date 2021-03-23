@@ -7,3 +7,9 @@
   grid-template-rows: 60px 100px 1fr;
   grid-template-columns: 2fr 10fr 10fr;
 }
+
+
+.app-wrapper-content {
+grid-area: d;
+  background-color: darkorange;
+}

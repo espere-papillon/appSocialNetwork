@@ -5,13 +5,13 @@ export const Navbar = () => {
     return (
         <nav className={styles.nav}>
             <div>
-                <a className={styles.item} href="">Profile</a>
+                <a className={styles.item} href="/profile">Profile</a>
             </div>
             <div>
                 <a className={styles.item} href="">News</a>
             </div>
             <div>
-                <a className={styles.item} href="">Messages</a>
+                <a className={styles.item} href="/dialogs">Messages</a>
             </div>
             <div>
                 <a className={styles.item} href="">Music</a>
