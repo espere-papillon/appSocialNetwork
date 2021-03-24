@@ -6,6 +6,9 @@ import {Description} from "./components/Description/Description";
 import {Posts} from "./components/Posts/Posts";
 import {Dialogs} from './components/Dialogs/Dialogs';
 import {BrowserRouter, Route} from "react-router-dom";
+import {Settings} from './components/Settings/Settings';
+import {Music} from './components/Music/Music';
+import { News } from './components/News/News';
 
 const App = () => {
     return (
@@ -18,6 +21,9 @@ const App = () => {
                 <div className={"app-wrapper-content"}>
                     <Route path={"/dialogs"} component={Dialogs}/>
                     <Route path={"/description"} component={Description}/>
+                    <Route path={"/news"} component={News}/>
+                    <Route path={"/music"} component={Music}/>
+                    <Route path={"/settings"} component={Settings}/>
                 </div>
             </div>
         </BrowserRouter>
