@@ -15,11 +15,11 @@ export const Navbar = () => {
                 <NavLink to="/dialogs">Messages</NavLink>
             </div>
             <div className={styles.item}>
-                <NavLink to="">Music</NavLink>
+                <NavLink to="/music">Music</NavLink>
             </div>
-            <div className={styles.item}>
-                <NavLink to="">Saved</NavLink>
-            </div>
+            {/*<div className={styles.item}>*/}
+            {/*    <NavLink to="/saved">Saved</NavLink>*/}
+            {/*</div>*/}
             <div className={styles.item}>
                 <NavLink to="/settings">Settings</NavLink>
             </div>
