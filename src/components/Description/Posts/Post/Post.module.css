@@ -1,0 +1,8 @@
+.post {
+    grid-area: h;
+    background-color: hotpink;
+}
+
+.post img {
+    width: 50px;
+}

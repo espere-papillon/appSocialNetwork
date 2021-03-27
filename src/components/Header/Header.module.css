@@ -1,0 +1,10 @@
+.header {
+    grid-area: h;
+    background-color: hotpink;
+}
+
+.header img {
+    width: 100%;
+    height: 60px;
+    /*background-color: aquamarine;*/
+}
