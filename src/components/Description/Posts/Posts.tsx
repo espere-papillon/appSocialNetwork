@@ -9,6 +9,8 @@ let PostData: Array<PostType> = [
     {id: "4", title: "Thank u", likesCount: 10},
 ]
 
+let postsElements = PostData.map(post => <Post title={post.title} likesCount={post.likesCount}/>)
+
 export const Posts = () => {
     return (
         <div className={styles.posts}>
@@ -21,10 +23,7 @@ export const Posts = () => {
                 </div>
             </div>
             <div>
-                <Post title={'Hello'} likesCount={5}/>
-                <Post title={'How are u?'} likesCount={6}/>
-                <Post title={'Fine'} likesCount={10}/>
-                <Post title={'Thank u'} likesCount={20}/>
+                {postsElements}
             </div>
         </div>
     )
