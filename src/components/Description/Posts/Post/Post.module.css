@@ -1,6 +1,7 @@
 .post {
     grid-area: h;
     background-color: hotpink;
+    padding-top: 20px;
 }
 
 .post img {

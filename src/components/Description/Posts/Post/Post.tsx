@@ -1,12 +1,13 @@
 import React from "react";
 import styles from "./Post.module.css";
 
-type TypePostProps = {
+export type PostType = {
+    id?: string
     title: string
-    likeCount?: number
+    likesCount: number
 }
 
-export const Post = (props: TypePostProps) => {
+export const Post = (props: PostType) => {
     return (
         <div className={styles.post}>
             <div>
@@ -14,7 +15,7 @@ export const Post = (props: TypePostProps) => {
                 {props.title}
             </div>
             <span>
-                {props.likeCount} likes
+                {props.likesCount} likes
             </span>
         </div>
     )
