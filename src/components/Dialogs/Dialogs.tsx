@@ -8,8 +8,21 @@ type DialogItemType = {
 }
 
 type MessageType = {
+    id?: string
     message: string
 }
+
+let DialogsData: Array<DialogItemType> = [
+    {id: "1", name: "Marina"},
+    {id: "2", name: "Karina"},
+    {id: "3", name: "Stas"}
+]
+
+let MessagesData: Array<MessageType> = [
+    {id: "1", message: "Hi"},
+    {id: "2", message: "How are u?"},
+    {id: "3", message: "Yoo"}
+]
 
 const DialogItem = (props: DialogItemType) => {
     let path = "dialogs/1" + props.id;
@@ -27,7 +40,7 @@ const Message = (props: MessageType) => {
     )
 }
 
-export const Dialogs = (props: any) => {
+export const Dialogs = (props: DialogItemType) => {
     return (
         <div className={styles.dialogs}>
             <div className={styles.dialogsItem}>
