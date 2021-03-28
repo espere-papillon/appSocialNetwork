@@ -17,11 +17,18 @@ const App = () => {
                 <Navbar/>
                 <div className={"app-wrapper-content"}>
                     <Route path={"/dialogs"} component={Dialogs}/>
-                    <Route path={"/description"} component={Description}/>
-                    <Route path={"/news"} component={News}/>
-                    <Route path={"/music"} component={Music}/>
+                    {/*<Route path={"/description"} component={Description}/>*/}
+                    {/*<Route path={"/news"} component={News}/>*/}
+                    {/*<Route path={"/music"} component={Music}/>*/}
+                    {/*/!*<Route path={"/saved"} component={Saved}/>*!/*/}
+                    {/*<Route path={"/settings"} component={Settings}/>*/}
+
+                    {/*<Route path={"/dialogs"} render={() => <Dialogs />}/>*/}
+                    <Route path={"/description"} render={() => <Description />}/>
+                    <Route path={"/news"} render={() => <News />}/>
+                    <Route path={"/music"} render={() => <Music />}/>
                     {/*<Route path={"/saved"} component={Saved}/>*/}
-                    <Route path={"/settings"} component={Settings}/>
+                    <Route path={"/settings"} render={() => <Settings />}/>
                 </div>
             </div>
         </BrowserRouter>
