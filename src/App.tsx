@@ -8,23 +8,17 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {Settings} from './components/Settings/Settings';
 import {Music} from './components/Music/Music';
 import { News } from './components/News/News';
+import {StateType} from "./redax/state";
 
-const App = () => {
+const App: React.FC<StateType> = (props) => {
     return (
         <BrowserRouter>
             <div className="app-wrapper">
                 <Header/>
                 <Navbar/>
                 <div className={"app-wrapper-content"}>
-                    <Route path={"/dialogs"} component={Dialogs}/>
-                    {/*<Route path={"/description"} component={Description}/>*/}
-                    {/*<Route path={"/news"} component={News}/>*/}
-                    {/*<Route path={"/music"} component={Music}/>*/}
-                    {/*/!*<Route path={"/saved"} component={Saved}/>*!/*/}
-                    {/*<Route path={"/settings"} component={Settings}/>*/}
-
-                    {/*<Route path={"/dialogs"} render={() => <Dialogs />}/>*/}
-                    <Route path={"/description"} render={() => <Description />}/>
+                    <Route path={"/dialogs"} render={() => <Dialogs dialogs={props.} messages={props.messages}/>}/>
+                    <Route path={"/description"} render={() => <Description posts={props.posts} />}/>
                     <Route path={"/news"} render={() => <News />}/>
                     <Route path={"/music"} render={() => <Music />}/>
                     {/*<Route path={"/saved"} component={Saved}/>*/}

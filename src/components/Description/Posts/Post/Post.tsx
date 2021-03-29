@@ -1,13 +1,8 @@
 import React from "react";
 import styles from "./Post.module.css";
+import {PostType} from "../../../../redax/state";
 
-export type PostType = {
-    id?: string
-    title: string
-    likesCount: number
-}
-
-export const Post = (props: PostType) => {
+export const Post: React.FC<PostType> = (props) => {
     return (
         <div className={styles.post}>
             <div>
