@@ -5,9 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import state from './redax/state';
 
+
 ReactDOM.render(
   <React.StrictMode>
-    <App appState={state} />
+    <App state={state} />
   </React.StrictMode>,
   document.getElementById('root')
 );
