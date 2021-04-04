@@ -11,27 +11,35 @@ import {News} from './components/News/News';
 import {StateType} from "./redax/state";
 
 type AppPropsType = {
-  state: StateType
+    state: StateType
+    addPost: () => void
+    updateNewPostText: (newText: string) => void
+    addMessage: () => void
+    updateNewMessageText: (newText: string) => void
 }
 
 const App = (props: AppPropsType) => {
-  return (
-    <BrowserRouter>
-      <div className="app-wrapper">
-        <Header/>
-        <Navbar/>
-        <div className={"app-wrapper-content"}>
-          <Route path={"/dialogs"} render={() => <Dialogs dialogs={props.state.dialogsPage.dialogs}
-                                                          messages={props.state.dialogsPage.messages}/>}/>
-          <Route path={"/description"} render={() => <Description posts={props.state.profilePage.posts}/>}/>
-          <Route path={"/news"} render={() => <News/>}/>
-          <Route path={"/music"} render={() => <Music/>}/>
-          {/*<Route path={"/saved"} component={Saved}/>*/}
-          <Route path={"/settings"} render={() => <Settings/>}/>
-        </div>
-      </div>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <div className="app-wrapper">
+                <Header/>
+                <Navbar/>
+                <div className={"app-wrapper-content"}>
+                    <Route path={"/dialogs"} render={() => <Dialogs DialogsPage={props.state.dialogsPage}
+                                                                    addMessage={props.addMessage}
+                                                                    updateNewMessageText={props.updateNewMessageText}/>}/>
+                    <Route path={"/description"}
+                           render={() => <Description ProfilePage={props.state.profilePage}
+                                                      addPost={props.addPost}
+                                                      updateNewPostText={props.updateNewPostText}/>}/>
+                    <Route path={"/news"} render={() => <News/>}/>
+                    <Route path={"/music"} render={() => <Music/>}/>
+                    {/*<Route path={"/saved"} component={Saved}/>*/}
+                    <Route path={"/settings"} render={() => <Settings/>}/>
+                </div>
+            </div>
+        </BrowserRouter>
+    );
 }
 
 export default App;
