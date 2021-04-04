@@ -30,7 +30,18 @@ export type StateType = {
     dialogsPage: DialogsPageType
 }
 
-export let store = {
+export type RootStoreType = {
+    _state: StateType
+    _rerenderEntireTree: () => void
+    getState: () => StateType
+    addPost: () => void
+    updateNewPostText: (newText: string) => void
+    addMessage: () => void
+    updateNewMessageText: (newText: string) => void
+    subscribe: (callback: () => void) => void
+}
+
+export let store: RootStoreType = {
     _state: {
         profilePage: {
             posts: [
@@ -56,7 +67,7 @@ export let store = {
         }
     },
 
-    rerenderEntireTree(state: StateType) {
+    _rerenderEntireTree() {
         alert("State changed")
     },
 
@@ -66,36 +77,36 @@ export let store = {
 
     addPost() {
         let newPost = {
-            id: "55",
+            id: new Date().getTime().toString(),
             title: this._state.profilePage.newPostText,
             likesCount: 0,
         }
         this._state.profilePage.posts.push(newPost)
         this._state.profilePage.newPostText = ""
-        this.rerenderEntireTree(this._state);
+        this._rerenderEntireTree();
     },
 
     updateNewPostText(newText: string) {
         this._state.profilePage.newPostText = newText;
-        this.rerenderEntireTree(this._state);
+        this._rerenderEntireTree();
     },
 
     addMessage() {
         let newMessage = {
-            id: "433223",
+            id:  new Date().getTime().toString(),
             message: this._state.dialogsPage.newMessageText,
         }
         this._state.dialogsPage.messages.push(newMessage)
         this._state.dialogsPage.newMessageText = ""
-        this.rerenderEntireTree(this._state);
+        this._rerenderEntireTree();
     },
 
     updateNewMessageText(newText: string) {
         this._state.dialogsPage.newMessageText = newText;
-        this.rerenderEntireTree(this._state)
+        this._rerenderEntireTree()
     },
 
-    subscribe(observer: (state: StateType) => void) {
-        this.rerenderEntireTree = observer;
+    subscribe(observer: () => void) {
+        this._rerenderEntireTree = observer;
     }
 }
