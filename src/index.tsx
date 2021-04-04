@@ -5,10 +5,10 @@ import App from './App';
 import {StateType, store} from './redax/state';
 
 
-export const rerenderEntireTree = (state: StateType) => {
+export const rerenderEntireTree = () => {
     ReactDOM.render(
         <React.StrictMode>
-            <App state={state}
+            <App state={store.getState()}
                  addPost={store.addPost.bind(store)}
                  updateNewPostText={store.updateNewPostText.bind(store)}
                  addMessage={store.addMessage.bind(store)}
@@ -18,9 +18,9 @@ export const rerenderEntireTree = (state: StateType) => {
     );
 }
 
-rerenderEntireTree(store.getState())
-
 store.subscribe(rerenderEntireTree);
+rerenderEntireTree();
+
 
 
 
