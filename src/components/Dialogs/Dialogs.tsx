@@ -25,8 +25,6 @@ export const Dialogs: React.FC<dataPropsType> = (props) => {
     const newDialogElement: React.RefObject<HTMLTextAreaElement> = React.createRef();
 
     const addMessage = () => {
-        // @ts-ignore
-        let text = newDialogElement.current.value;
         props.addMessage()
     }
 
