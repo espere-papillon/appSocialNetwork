@@ -34,11 +34,42 @@ export type RootStoreType = {
     _state: StateType
     _rerenderEntireTree: () => void
     getState: () => StateType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
-    addMessage: () => void
-    updateNewMessageText: (newText: string) => void
     subscribe: (callback: () => void) => void
+    dispatch: (action: ActionsType) => void
+}
+
+export type ActionsType =
+    ReturnType<typeof addPostAC>
+    | ReturnType<typeof updateNewPostTextAC>
+    | ReturnType<typeof addMessageAC>
+    | ReturnType<typeof updateNewMessageTextAC>
+
+export const addPostAC = (newPostText: string) => {
+    return {
+        type: "ADD-POST",
+        newPostText: newPostText
+    } as const
+}
+
+export const updateNewPostTextAC = (newText: string) => {
+    return {
+        type: "UPDATE-NEW-POST-TEXT",
+        newText: newText
+    } as const
+}
+
+export const addMessageAC = (newMessageText: string) => {
+    return {
+        type: "ADD-MESSAGE",
+        newMessageText: newMessageText
+    } as const
+}
+
+export const updateNewMessageTextAC = (newText: string) => {
+    return {
+        type: "UPDATE-NEW-MESSAGE-TEXT",
+        newText: newText
+    } as const
 }
 
 export let store: RootStoreType = {
@@ -72,41 +103,37 @@ export let store: RootStoreType = {
     },
 
     getState() {
-      return this._state
-    },
-
-    addPost() {
-        let newPost = {
-            id: new Date().getTime().toString(),
-            title: this._state.profilePage.newPostText,
-            likesCount: 0,
-        }
-        this._state.profilePage.posts.push(newPost)
-        this._state.profilePage.newPostText = ""
-        this._rerenderEntireTree();
-    },
-
-    updateNewPostText(newText: string) {
-        this._state.profilePage.newPostText = newText;
-        this._rerenderEntireTree();
-    },
-
-    addMessage() {
-        let newMessage = {
-            id:  new Date().getTime().toString(),
-            message: this._state.dialogsPage.newMessageText,
-        }
-        this._state.dialogsPage.messages.push(newMessage)
-        this._state.dialogsPage.newMessageText = ""
-        this._rerenderEntireTree();
-    },
-
-    updateNewMessageText(newText: string) {
-        this._state.dialogsPage.newMessageText = newText;
-        this._rerenderEntireTree()
+        return this._state
     },
 
     subscribe(observer: () => void) {
         this._rerenderEntireTree = observer;
-    }
+    },
+
+    dispatch(action) {
+        if (action.type === "ADD-POST") {
+            let newPost = {
+                id: new Date().getTime().toString(),
+                title: action.newPostText,
+                likesCount: 0,
+            }
+            this._state.profilePage.posts.push(newPost)
+            this._state.profilePage.newPostText = ""
+            this._rerenderEntireTree();
+        } else if (action.type === "UPDATE-NEW-POST-TEXT") {
+            this._state.profilePage.newPostText = action.newText;
+            this._rerenderEntireTree();
+        } else if (action.type === "ADD-MESSAGE") {
+            let newMessage = {
+                id: new Date().getTime().toString(),
+                message: this._state.dialogsPage.newMessageText,
+            }
+            this._state.dialogsPage.messages.push(newMessage)
+            this._state.dialogsPage.newMessageText = ""
+            this._rerenderEntireTree();
+        } else if (action.type === "UPDATE-NEW-MESSAGE-TEXT") {
+            this._state.dialogsPage.newMessageText = action.newText;
+            this._rerenderEntireTree()
+        }
+    },
 }

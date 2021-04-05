@@ -2,7 +2,12 @@ import React, {ChangeEvent} from "react";
 import styles from "./Dialogs.module.css";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {DialogItemType, MessageType} from "../../redax/state";
+import {
+    ActionsType, addMessageAC,
+    DialogItemType,
+    MessageType,
+    updateNewMessageTextAC
+} from "../../redax/state";
 
 type DialogsMessagePropsType = {
     dialogs: Array<DialogItemType>
@@ -12,8 +17,7 @@ type DialogsMessagePropsType = {
 
 type dataPropsType = {
     DialogsPage: DialogsMessagePropsType
-    addMessage: () => void
-    updateNewMessageText: (newText: string) => void
+    dispatch: (action: ActionsType) => void
 }
 
 export const Dialogs: React.FC<dataPropsType> = (props) => {
@@ -23,10 +27,10 @@ export const Dialogs: React.FC<dataPropsType> = (props) => {
     let messagesElements = props.DialogsPage.messages.map(message => <Message message={message.message} />)
 
     const addMessage = () => {
-        props.addMessage()
+        props.dispatch(addMessageAC(props.DialogsPage.newMessageText))
     }
 
-    const updateMessageText = (event: ChangeEvent<HTMLTextAreaElement>) => {props.updateNewMessageText(event.currentTarget.value)}
+    const updateMessageText = (event: ChangeEvent<HTMLTextAreaElement>) => {props.dispatch(updateNewMessageTextAC(event.currentTarget.value))}
 
     return (
         <div className={styles.dialogs}>

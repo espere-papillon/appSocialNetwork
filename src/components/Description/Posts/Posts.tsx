@@ -1,13 +1,12 @@
 import React, {ChangeEvent} from "react";
 import styles from "./Posts.module.css";
 import {Post} from "./Post/Post";
-import {PostType} from "../../../redax/state";
+import {ActionsType, addMessageAC, addPostAC, PostType, updateNewPostTextAC} from "../../../redax/state";
 
 type postsPropsType = {
     posts: Array<PostType>
     newPostText: string
-    addPost: () => void
-    updateNewPostText: (newText: string) =>void
+    dispatch: (action: ActionsType) =>void
 }
 
 export const Posts: React.FC<postsPropsType> = (props) => {
@@ -15,10 +14,10 @@ export const Posts: React.FC<postsPropsType> = (props) => {
                                                       likesCount={post.likesCount}/>)
 
     let addPost = () => {
-        props.addPost()
+        props.dispatch(addPostAC(props.newPostText))
     }
 
-    let updateNewPostText = (event: ChangeEvent<HTMLTextAreaElement>) => {props.updateNewPostText(event.currentTarget.value)}
+    let updateNewPostText = (event: ChangeEvent<HTMLTextAreaElement>) => {props.dispatch(updateNewPostTextAC(event.currentTarget.value))}
 
     return (
         <div className={styles.posts}>
