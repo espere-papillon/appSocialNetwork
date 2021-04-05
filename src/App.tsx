@@ -8,14 +8,11 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {Settings} from './components/Settings/Settings';
 import {Music} from './components/Music/Music';
 import {News} from './components/News/News';
-import {StateType} from "./redax/state";
+import {ActionsType, StateType} from "./redax/state";
 
 type AppPropsType = {
     state: StateType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
-    addMessage: () => void
-    updateNewMessageText: (newText: string) => void
+    dispatch: (action: ActionsType) => void
 }
 
 const App = (props: AppPropsType) => {
@@ -26,12 +23,10 @@ const App = (props: AppPropsType) => {
                 <Navbar/>
                 <div className={"app-wrapper-content"}>
                     <Route path={"/dialogs"} render={() => <Dialogs DialogsPage={props.state.dialogsPage}
-                                                                    addMessage={props.addMessage}
-                                                                    updateNewMessageText={props.updateNewMessageText}/>}/>
+                                                                    dispatch={props.dispatch} />}/>
                     <Route path={"/description"}
                            render={() => <Description ProfilePage={props.state.profilePage}
-                                                      addPost={props.addPost}
-                                                      updateNewPostText={props.updateNewPostText}/>}/>
+                                                      dispatch={props.dispatch} />}/>
                     <Route path={"/news"} render={() => <News/>}/>
                     <Route path={"/music"} render={() => <Music/>}/>
                     {/*<Route path={"/saved"} component={Saved}/>*/}
