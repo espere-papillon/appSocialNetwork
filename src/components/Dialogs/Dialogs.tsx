@@ -1,25 +1,36 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import styles from "./Dialogs.module.css";
-import {DialogItem, DialogItemType} from "./DialogItem/DialogItem";
-import {Message, MessageType} from "./Message/Message";
+import {DialogItem} from "./DialogItem/DialogItem";
+import {Message} from "./Message/Message";
+import {
+    ActionsType, addMessageAC,
+    DialogItemType,
+    MessageType,
+    updateNewMessageTextAC
+} from "../../redax/state";
 
+type DialogsMessagePropsType = {
+    dialogs: Array<DialogItemType>
+    messages: Array<MessageType>
+    newMessageText: string
+}
 
-export const Dialogs = (props: DialogItemType) => {
-    let DialogsData: Array<DialogItemType> = [
-        {id: "1", name: "Marina"},
-        {id: "2", name: "Karina"},
-        {id: "3", name: "Stas"}
-    ]
+type dataPropsType = {
+    DialogsPage: DialogsMessagePropsType
+    dispatch: (action: ActionsType) => void
+}
 
-    let MessagesData: Array<MessageType> = [
-        {id: "1", message: "Hi"},
-        {id: "2", message: "How are u?"},
-        {id: "3", message: "Yoo"}
-    ]
+export const Dialogs: React.FC<dataPropsType> = (props) => {
 
-    let dialogsElements = DialogsData.map(dialogs => <DialogItem name={dialogs.name} id={dialogs.id}/>)
+    let dialogsElements = props.DialogsPage.dialogs.map(dialogs => <DialogItem name={dialogs.name} id={dialogs.id}/>)
 
-    let messagesElements = MessagesData.map(message => <Message message={message.message} />)
+    let messagesElements = props.DialogsPage.messages.map(message => <Message message={message.message} />)
+
+    const addMessage = () => {
+        props.dispatch(addMessageAC(props.DialogsPage.newMessageText))
+    }
+
+    const updateMessageText = (event: ChangeEvent<HTMLTextAreaElement>) => {props.dispatch(updateNewMessageTextAC(event.currentTarget.value))}
 
     return (
         <div className={styles.dialogs}>
@@ -29,6 +40,16 @@ export const Dialogs = (props: DialogItemType) => {
             <div className={styles.messages}>
                 {messagesElements}
             </div>
+            <div className={styles.areaAddMessage}>
+                <div>
+                    <textarea value={props.DialogsPage.newMessageText}
+                              placeholder={"Enter text"}
+                              onChange={updateMessageText} />
+                </div>
+                <div>
+                    <button onClick={addMessage}>Add</button>
+                </div>
+            </div>
         </div>
-    )
+    );
 }
