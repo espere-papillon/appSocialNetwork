@@ -1,0 +1,14 @@
+.description {
+    grid-area: d;
+    background-color: darkorange;
+}
+
+.description img {
+    width: 100px;
+    height: 60px;
+    /*background-color: aquamarine;*/
+}
+
+.descriptionText {
+    padding: 10px;
+}
