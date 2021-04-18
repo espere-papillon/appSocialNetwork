@@ -2,7 +2,8 @@ import React from "react";
 import styles from "./Description.module.css"
 import {Posts} from "./Posts/Posts";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
-import {ActionsType, PostType} from "../../redax/state";
+import {ActionsType} from "../../redax/state";
+import {PostType} from "../Navbar/profile-reducer";
 
 type ProfilePageType = {
     posts: Array<PostType>
