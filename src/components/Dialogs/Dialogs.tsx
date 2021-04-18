@@ -2,12 +2,8 @@ import React, {ChangeEvent} from "react";
 import styles from "./Dialogs.module.css";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {
-    ActionsType, addMessageAC,
-    DialogItemType,
-    MessageType,
-    updateNewMessageTextAC
-} from "../../redax/state";
+import {ActionsType} from "../../redax/state";
+import {addMessageAC, DialogItemType, MessageType, updateNewMessageTextAC} from "../Navbar/dialogs-reducer";
 
 type DialogsMessagePropsType = {
     dialogs: Array<DialogItemType>

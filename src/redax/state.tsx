@@ -1,29 +1,5 @@
-export type DialogItemType = {
-    id: string
-    name: string
-}
-
-export type MessageType = {
-    id?: string
-    message: string
-}
-
-export type PostType = {
-    id?: string
-    title: string
-    likesCount: number
-}
-
-type ProfilePageType = {
-    posts: Array<PostType>
-    newPostText: string
-}
-
-type DialogsPageType = {
-    dialogs: Array<DialogItemType>
-    messages: Array<MessageType>
-    newMessageText: string
-}
+import {addPostAC, ProfilePageType, profileReduser, updateNewPostTextAC} from "../components/Navbar/profile-reducer";
+import {addMessageAC, DialogsPageType, dialogsReduser, updateNewMessageTextAC} from "../components/Navbar/dialogs-reducer";
 
 export type StateType = {
     profilePage: ProfilePageType
@@ -44,33 +20,6 @@ export type ActionsType =
     | ReturnType<typeof addMessageAC>
     | ReturnType<typeof updateNewMessageTextAC>
 
-export const addPostAC = (newPostText: string) => {
-    return {
-        type: "ADD-POST",
-        newPostText: newPostText
-    } as const
-}
-
-export const updateNewPostTextAC = (newText: string) => {
-    return {
-        type: "UPDATE-NEW-POST-TEXT",
-        newText: newText
-    } as const
-}
-
-export const addMessageAC = (newMessageText: string) => {
-    return {
-        type: "ADD-MESSAGE",
-        newMessageText: newMessageText
-    } as const
-}
-
-export const updateNewMessageTextAC = (newText: string) => {
-    return {
-        type: "UPDATE-NEW-MESSAGE-TEXT",
-        newText: newText
-    } as const
-}
 
 export let store: RootStoreType = {
     _state: {
@@ -111,29 +60,8 @@ export let store: RootStoreType = {
     },
 
     dispatch(action) {
-        if (action.type === "ADD-POST") {
-            let newPost = {
-                id: new Date().getTime().toString(),
-                title: action.newPostText,
-                likesCount: 0,
-            }
-            this._state.profilePage.posts.push(newPost)
-            this._state.profilePage.newPostText = ""
-            this._rerenderEntireTree();
-        } else if (action.type === "UPDATE-NEW-POST-TEXT") {
-            this._state.profilePage.newPostText = action.newText;
-            this._rerenderEntireTree();
-        } else if (action.type === "ADD-MESSAGE") {
-            let newMessage = {
-                id: new Date().getTime().toString(),
-                message: this._state.dialogsPage.newMessageText,
-            }
-            this._state.dialogsPage.messages.push(newMessage)
-            this._state.dialogsPage.newMessageText = ""
-            this._rerenderEntireTree();
-        } else if (action.type === "UPDATE-NEW-MESSAGE-TEXT") {
-            this._state.dialogsPage.newMessageText = action.newText;
-            this._rerenderEntireTree()
-        }
+        this._state.profilePage = profileReduser(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReduser(this._state.dialogsPage, action)
+        this._rerenderEntireTree()
     },
 }
