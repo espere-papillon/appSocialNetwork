@@ -12,16 +12,17 @@ type ProfilePageType = {
 }
 
 export type dataPropsType = {
-    ProfilePage: StateType
-    dispatch: (action: ActionsType) => void
+    // ProfilePage: StateType
+    // dispatch: (action: ActionsType) => void
 }
 
 export const Description: React.FC<dataPropsType> = (props) => {
     return (
         <div>
             <ProfileInfo />
-            <PostsContainer state={props.ProfilePage}
-                   dispatch={props.dispatch}/>
+            <PostsContainer />
+            {/*<PostsContainer state={props.ProfilePage}*/}
+            {/*       dispatch={props.dispatch}/>*/}
         </div>
     )
 }
