@@ -8,7 +8,8 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {Settings} from './components/Settings/Settings';
 import {Music} from './components/Music/Music';
 import {News} from './components/News/News';
-import {ActionsType, StateType} from "./redax/state";
+import {ActionsType, StateType} from "./redax/store";
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 type AppPropsType = {
     state: StateType
@@ -22,10 +23,10 @@ const App = (props: AppPropsType) => {
                 <Header/>
                 <Navbar/>
                 <div className={"app-wrapper-content"}>
-                    <Route path={"/dialogs"} render={() => <Dialogs DialogsPage={props.state.dialogsPage}
+                    <Route path={"/dialogs"} render={() => <DialogsContainer DialogsPage={props.state}
                                                                     dispatch={props.dispatch} />}/>
                     <Route path={"/description"}
-                           render={() => <Description ProfilePage={props.state.profilePage}
+                           render={() => <Description ProfilePage={props.state}
                                                       dispatch={props.dispatch} />}/>
                     <Route path={"/news"} render={() => <News/>}/>
                     <Route path={"/music"} render={() => <Music/>}/>
