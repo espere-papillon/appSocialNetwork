@@ -1,5 +1,5 @@
-import {addPostAC, ProfilePageType, profileReduser, updateNewPostTextAC} from "../components/Navbar/profile-reducer";
-import {addMessageAC, DialogsPageType, dialogsReduser, updateNewMessageTextAC} from "../components/Navbar/dialogs-reducer";
+import {addPostAC, ProfilePageType, profileReducer, updateNewPostTextAC} from "./profile-reducer";
+import {addMessageAC, DialogsPageType, dialogsReducer, updateNewMessageTextAC} from "./dialogs-reducer";
 
 export type StateType = {
     profilePage: ProfilePageType
@@ -60,8 +60,8 @@ export let store: RootStoreType = {
     },
 
     dispatch(action) {
-        this._state.profilePage = profileReduser(this._state.profilePage, action)
-        this._state.dialogsPage = dialogsReduser(this._state.dialogsPage, action)
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
         this._rerenderEntireTree()
     },
 }
