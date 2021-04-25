@@ -2,8 +2,9 @@ import React from "react";
 import styles from "./Description.module.css"
 import {Posts} from "./Posts/Posts";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
-import {ActionsType} from "../../redax/state";
-import {PostType} from "../Navbar/profile-reducer";
+import {ActionsType, StateType} from "../../redax/store";
+import {PostType} from "../../redax/profile-reducer";
+import {PostsContainer} from "./Posts/PostsContainer";
 
 type ProfilePageType = {
     posts: Array<PostType>
@@ -11,7 +12,7 @@ type ProfilePageType = {
 }
 
 export type dataPropsType = {
-    ProfilePage: ProfilePageType
+    ProfilePage: StateType
     dispatch: (action: ActionsType) => void
 }
 
@@ -19,8 +20,7 @@ export const Description: React.FC<dataPropsType> = (props) => {
     return (
         <div>
             <ProfileInfo />
-            <Posts posts={props.ProfilePage.posts}
-                   newPostText={props.ProfilePage.newPostText}
+            <PostsContainer state={props.ProfilePage}
                    dispatch={props.dispatch}/>
         </div>
     )

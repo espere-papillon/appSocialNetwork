@@ -1,4 +1,4 @@
-import {ActionsType} from "../../redax/state";
+import {ActionsType} from "../../redax/store";
 
 export type PostType = {
     id?: string

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Post.module.css";
-import {PostType} from "../../../Navbar/profile-reducer";
+import {PostType} from "../../../../redax/profile-reducer";
 
 export const Post: React.FC<PostType> = (props) => {
     return (
