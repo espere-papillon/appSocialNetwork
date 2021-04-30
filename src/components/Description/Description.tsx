@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./Description.module.css"
 import {Posts} from "./Posts/Posts";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
-import {ActionsType, StateType} from "../../redax/store";
-import {PostType} from "../../redax/profile-reducer";
+import {ActionsType, StateType} from "../../redux/store";
+import {PostType} from "../../redux/profile-reducer";
 import {PostsContainer} from "./Posts/PostsContainer";
 
 type ProfilePageType = {
