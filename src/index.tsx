@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-//import {store} from './redax/redux-store';
-import {store} from './redax/store';
-import {Provider} from "./StoreContext";
+import {store} from './redux/redux-store';
+import {Provider} from "react-redux";
 
 
 export const rerenderEntireTree = () => {
