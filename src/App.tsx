@@ -3,17 +3,15 @@ import './App.css';
 import {Header} from "./components/Header/Header";
 import {Navbar} from "./components/Navbar/Navbar";
 import {Description} from "./components/Description/Description";
-import {Dialogs} from './components/Dialogs/Dialogs';
 import {BrowserRouter, Route} from "react-router-dom";
 import {Settings} from './components/Settings/Settings';
 import {Music} from './components/Music/Music';
 import {News} from './components/News/News';
-import {ActionsType, StateType} from "./redax/store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 type AppPropsType = {
-    state: StateType
-    dispatch: (action: ActionsType) => void
+    // state: StateType
+    // dispatch: (action: ActionsType) => void
 }
 
 const App = (props: AppPropsType) => {
@@ -23,11 +21,9 @@ const App = (props: AppPropsType) => {
                 <Header/>
                 <Navbar/>
                 <div className={"app-wrapper-content"}>
-                    <Route path={"/dialogs"} render={() => <DialogsContainer DialogsPage={props.state}
-                                                                    dispatch={props.dispatch} />}/>
+                    <Route path={"/dialogs"} render={() => <DialogsContainer />}/>
                     <Route path={"/description"}
-                           render={() => <Description ProfilePage={props.state}
-                                                      dispatch={props.dispatch} />}/>
+                           render={() => <Description />}/>
                     <Route path={"/news"} render={() => <News/>}/>
                     <Route path={"/music"} render={() => <Music/>}/>
                     {/*<Route path={"/saved"} component={Saved}/>*/}
