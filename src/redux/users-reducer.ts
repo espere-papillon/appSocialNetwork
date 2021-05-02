@@ -7,9 +7,12 @@ export type LocationUserType = {
 
 export type UserType = {
     id: string
-    avatar: string
+    photos: {
+        small: string | null
+        large: string | null
+    }
     followed: boolean
-    nameUser: string
+    name: string
     status: string
     location: LocationUserType
 }

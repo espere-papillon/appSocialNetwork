@@ -1,6 +1,9 @@
 import React from "react";
 import {UserType} from "../../redux/users-reducer";
 import userImg from "../../img/user.jpg";
+import styles from "./Users.module.css"
+import  axios from "axios";
+import {AppStateType} from "../../redux/redux-store";
 
 type dataPropsType = {
     users: Array<UserType>
@@ -9,67 +12,38 @@ type dataPropsType = {
     setUsers: (users: Array<UserType>) => void
 }
 
-export const Users: React.FC<dataPropsType> = (props) => {
-    if (props.users.length === 0) {
-        props.setUsers(
-            [
-                {
-                    id: "1",
-                    avatar: userImg,
-                    followed: true,
-                    nameUser: "Cat",
-                    status: "I'm Cat",
-                    location: {city: "NY", country: "USA"}
-                },
-                {
-                    id: "2",
-                    avatar: userImg,
-                    followed: false,
-                    nameUser: "Tor",
-                    status: "I'm Got",
-                    location: {city: "LA", country: "USA"}
-                },
-                {
-                    id: "3",
-                    avatar: userImg,
-                    followed: true,
-                    nameUser: "Vanja",
-                    status: "I'm a russian man",
-                    location: {city: "Moscow", country: "Russia"}
-                },
-                {
-                    id: "4",
-                    avatar: userImg,
-                    followed: false,
-                    nameUser: "Crot",
-                    status: "I sleep",
-                    location: {city: "London", country: "UK"}
-                },
-            ]
-        )
+class Users extends React.Component<dataPropsType, AppStateType> {
+    constructor(props: dataPropsType) {
+        super(props);
+        axios.get("https://social-network.samuraijs.com/api/1.0/users").then(response => {
+            this.props.setUsers(response.data.items)
+        })
     }
-    return (
-        <div>
-            {props.users.map(user => <div key={user.id}>
-                    <div>
-                        <span>
-                            <img src={user.avatar} alt={"Avatar" + user.nameUser} />
-                        </span>
-                        {user.followed ? <button onClick={() => {props.unfollowUser(user.id)}}>Unfollow</button> : <button onClick={() => {props.followUser(user.id)}}>Follow</button>}
-                    </div>
-                    <div>
+
+    render() {
+        return <div className={styles.container}>
+            {this.props.users.map(user => <div key={user.id} className={styles.containerUser}>
+                    <div className={styles.avatarFollow}>
                         <div>
-                            <span>{user.nameUser}</span>
-                            <span>{user.status}</span>
+                            <img className={styles.avatar} src={user.photos.small !== null ? user.photos.small : userImg} alt={"Avatar" + user.name} />
                         </div>
-                        <div>
-                            <span>{user.location.city}</span>
-                            <span>{user.location.country}</span>
+                        {user.followed ? <button onClick={() => {this.props.unfollowUser(user.id)}}>Unfollow</button> : <button onClick={() => {this.props.followUser(user.id)}}>Follow</button>}
+                    </div>
+                    <div className={styles.description}>
+                        <div className={styles.descriptionUser}>
+                            <span className={styles.userName}>{user.name}</span>
+                            <span className={styles.userStatus}>{user.status}</span>
+                        </div>
+                        <div className={styles.descriptionLocation}>
+                            <span className={styles.locationCity}>{"user.location.city"}</span>
+                            <span className={styles.locationCountry}>{"user.location.country"}</span>
                         </div>
                     </div>
                 </div>
             )
             }
         </div>
-    )
+    }
 }
+
+export default Users;
