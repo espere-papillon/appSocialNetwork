@@ -13,8 +13,7 @@ type dataPropsType = {
 }
 
 class Users extends React.Component<dataPropsType, AppStateType> {
-    constructor(props: dataPropsType) {
-        super(props);
+    componentDidMount() {
         axios.get("https://social-network.samuraijs.com/api/1.0/users").then(response => {
             this.props.setUsers(response.data.items)
         })
