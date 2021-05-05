@@ -27,7 +27,10 @@ let initialState = {
         // {id: "2", avatar: userImg, followed: false, nameUser: "Tor", status: "I'm Got", location: {city: "LA", country: "USA"}},
         // {id: "3", avatar: userImg, followed: true, nameUser: "Vanja", status: "I'm a russian man", location: {city: "Moscow", country: "Russia"}},
         // {id: "4", avatar: userImg, followed: false, nameUser: "Crot", status: "I sleep", location: {city: "London", country: "UK"}},
-    ] as Array<UserType>
+    ] as Array<UserType>,
+    pageSize: 100,
+    totalUsersCount: 400,
+    currentPage: 1,
 }
 
 export type InitialStateUsersType = typeof initialState
@@ -53,7 +56,20 @@ export const setUserAC = (users: Array<UserType>) => {
     } as const
 }
 
-type UsersActionsType = ReturnType<typeof followUserAC> | ReturnType<typeof unfollowUserAC> | ReturnType<typeof setUserAC>
+export const setCurrentPageAC = (currentPage: number) => {
+    return {
+        type: "SET-CURRENT-PAGE",
+        currentPage
+    } as const
+}
+export const setTotalUsersCountAC = (totalUsersCount: number) => {
+    return {
+        type: "SET-TOTAL-USERS-COUNT",
+        totalUsersCount
+    } as const
+}
+
+type UsersActionsType = ReturnType<typeof followUserAC> | ReturnType<typeof unfollowUserAC> | ReturnType<typeof setUserAC> | ReturnType<typeof setCurrentPageAC> | ReturnType<typeof setTotalUsersCountAC>
 
 
 export const usersReducer = (state: InitialStateUsersType = initialState, action: UsersActionsType): InitialStateUsersType => {
@@ -83,7 +99,17 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
         case "SET-USERS": {
             return {
                 ...state,
-                users: [...state.users, ...action.users]}
+                users: [...action.users]}
+        }
+        case "SET-CURRENT-PAGE": {
+            return {
+                ...state,
+                currentPage: action.currentPage}
+        }
+        case "SET-TOTAL-USERS-COUNT": {
+            return {
+                ...state,
+                totalUsersCount: action.totalUsersCount}
         }
         default:
             return state;
