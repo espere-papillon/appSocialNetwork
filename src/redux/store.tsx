@@ -1,5 +1,5 @@
-import {addPostAC, ProfilePageType, profileReducer, updateNewPostTextAC} from "./profile-reducer";
-import {addMessageAC, DialogsPageType, dialogsReducer, updateNewMessageTextAC} from "./dialogs-reducer";
+import {addPost, ProfilePageType, profileReducer, setUserProfile, updateNewPostText} from "./profile-reducer";
+import {addMessage, DialogsPageType, dialogsReducer, updateNewMessageText} from "./dialogs-reducer";
 
 export type StateType = {
     profilePage: ProfilePageType
@@ -15,10 +15,11 @@ export type RootStoreType = {
 }
 
 export type ActionsType =
-    ReturnType<typeof addPostAC>
-    | ReturnType<typeof updateNewPostTextAC>
-    | ReturnType<typeof addMessageAC>
-    | ReturnType<typeof updateNewMessageTextAC>
+    ReturnType<typeof addPost>
+    | ReturnType<typeof updateNewPostText>
+    | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof addMessage>
+    | ReturnType<typeof updateNewMessageText>
 
 
 // export let store: RootStoreType = {
