@@ -15,14 +15,14 @@ export type DialogsPageType = {
     newMessageText: string
 }
 
-export const addMessageAC = () => {
+export const addMessage = () => {
     return {
         type: "ADD-MESSAGE",
        // newMessageText: store.getState().newMessageText
     } as const
 }
 
-export const updateNewMessageTextAC = (newText: string) => {
+export const updateNewMessageText = (newText: string) => {
     return {
         type: "UPDATE-NEW-MESSAGE-TEXT",
         newText: newText
