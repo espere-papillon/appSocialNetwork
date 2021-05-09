@@ -6,12 +6,37 @@ export type PostType = {
     title: string
     likesCount: number
 }
+export type ContactsUserType = {
+    facebook: string | null
+    website: string | null
+    vk: string | null
+    twitter: string | null
+    instagram: string | null
+    youtube: string | null
+    github: string | null
+    mainLink: string | null
+}
+export type PhotosUserType = {
+    small: string
+    large: string
+}
+export type ProfileUserType = {
+    aboutMe: string
+    contacts: ContactsUserType
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    userId: number
+    photos: PhotosUserType
+}
+
 export type ProfilePageType = {
     posts: Array<PostType>
+    profileUser: ProfileUserType
     newPostText: string
 }
 
-export const addPostAC = (text: string) => {
+export const addPost = (text: string) => {
     return {
         type: "ADD-POST",
         text
@@ -19,10 +44,17 @@ export const addPostAC = (text: string) => {
     } as const
 }
 
-export const updateNewPostTextAC = (newText: string) => {
+export const updateNewPostText = (newText: string) => {
     return {
         type: "UPDATE-NEW-POST-TEXT",
         newText: newText
+    } as const
+}
+
+export const setUserProfile = (profileUser: ProfileUserType) => {
+    return {
+        type: "SET-USER-PROFILE",
+        profileUser
     } as const
 }
 
@@ -33,6 +65,7 @@ let initialState = {
         {id: "3", title: "Fine", likesCount: 4},
         {id: "4", title: "Thank u", likesCount: 10}
     ] as Array<PostType>,
+    profileUser: null as ProfileUserType | null,
     newPostText: "it-kamasutra",
 }
 
@@ -55,6 +88,12 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
             let stateCopy = {...state}
             stateCopy.newPostText = action.newText;
             return stateCopy
+        }
+        case "SET-USER-PROFILE": {
+            return {
+                ...state,
+                profileUser: action.profileUser
+            }
         }
         default:
             return state;

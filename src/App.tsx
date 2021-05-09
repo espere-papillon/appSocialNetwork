@@ -9,6 +9,7 @@ import {Music} from './components/Music/Music';
 import {News} from './components/News/News';
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
+import {ProfileUserContainer} from "./components/Description/ProfileContainer";
 
 type AppPropsType = {
     // state: StateType
@@ -24,8 +25,8 @@ const App = (props: AppPropsType) => {
                 <div className={"app-wrapper-content"}>
                     <Route path={"/dialogs"} render={() => <DialogsContainer />}/>
                     <Route path={"/users"} render={() => <UsersContainer />}/>
-                    <Route path={"/description"}
-                           render={() => <Description />}/>
+                    <Route path={"/profile"}
+                           render={() => <ProfileUserContainer />}/>
                     <Route path={"/news"} render={() => <News/>}/>
                     <Route path={"/music"} render={() => <Music/>}/>
                     {/*<Route path={"/saved"} component={Saved}/>*/}
