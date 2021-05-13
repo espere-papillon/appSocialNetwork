@@ -2,12 +2,7 @@ import React, {ChangeEvent} from "react";
 import styles from "./Dialogs.module.css";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {
-    ActionsType, addMessageAC,
-    DialogItemType,
-    MessageType,
-    updateNewMessageTextAC
-} from "../../redax/state";
+import {DialogItemType, MessageType} from "../../redux/dialogs-reducer";
 
 type DialogsMessagePropsType = {
     dialogs: Array<DialogItemType>
@@ -16,21 +11,22 @@ type DialogsMessagePropsType = {
 }
 
 type dataPropsType = {
-    DialogsPage: DialogsMessagePropsType
-    dispatch: (action: ActionsType) => void
+    dialogsPage: DialogsMessagePropsType
+    addMessage: () => void
+    updateMessageText: (text: string) => void
 }
 
 export const Dialogs: React.FC<dataPropsType> = (props) => {
 
-    let dialogsElements = props.DialogsPage.dialogs.map(dialogs => <DialogItem name={dialogs.name} id={dialogs.id}/>)
+    let dialogsElements = props.dialogsPage.dialogs.map(dialogs => <DialogItem name={dialogs.name} id={dialogs.id}/>)
 
-    let messagesElements = props.DialogsPage.messages.map(message => <Message message={message.message} />)
+    let messagesElements = props.dialogsPage.messages.map(message => <Message message={message.message} />)
 
     const addMessage = () => {
-        props.dispatch(addMessageAC(props.DialogsPage.newMessageText))
+        props.addMessage()
     }
 
-    const updateMessageText = (event: ChangeEvent<HTMLTextAreaElement>) => {props.dispatch(updateNewMessageTextAC(event.currentTarget.value))}
+    const updateMessageText = (event: ChangeEvent<HTMLTextAreaElement>) => {props.updateMessageText(event.currentTarget.value)}
 
     return (
         <div className={styles.dialogs}>
@@ -42,7 +38,7 @@ export const Dialogs: React.FC<dataPropsType> = (props) => {
             </div>
             <div className={styles.areaAddMessage}>
                 <div>
-                    <textarea value={props.DialogsPage.newMessageText}
+                    <textarea value={props.dialogsPage.newMessageText}
                               placeholder={"Enter text"}
                               onChange={updateMessageText} />
                 </div>
