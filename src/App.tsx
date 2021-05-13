@@ -10,6 +10,7 @@ import {News} from './components/News/News';
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import {ProfileUserContainer} from "./components/Description/ProfileContainer";
+import {HeaderContainer} from "./components/Header/HeaderContainer";
 
 type AppPropsType = {
     // state: StateType
@@ -20,7 +21,7 @@ const App = (props: AppPropsType) => {
     return (
         <BrowserRouter>
             <div className="app-wrapper">
-                <Header/>
+                <HeaderContainer />
                 <Navbar/>
                 <div className={"app-wrapper-content"}>
                     <Route path={"/dialogs"} render={() => <DialogsContainer />}/>
