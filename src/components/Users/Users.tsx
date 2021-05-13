@@ -51,9 +51,17 @@ export const Users: React.FC<dataPropsType> = props => {
                         </NavLink>
                     </div>
                     {user.followed ? <button onClick={() => {
-                        unfollowUser(user.id)
+                        axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,  {withCredentials: true, headers: {"API-KEY": "2915ec48-57be-426d-903d-1c83b1420c90"}}).then(response => {
+                            if (response.data.resultCode === 0) {
+                                unfollowUser(user.id)
+                            }
+                        })
                     }}>Unfollow</button> : <button onClick={() => {
-                        followUser(user.id)
+                        axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {}, {withCredentials: true, headers: {"API-KEY": "2915ec48-57be-426d-903d-1c83b1420c90"}}).then(response => {
+                            if (response.data.resultCode === 0) {
+                                followUser(user.id)
+                            }
+                        })
                     }}>Follow</button>}
                 </div>
                 <div className={styles.description}>
