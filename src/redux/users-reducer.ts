@@ -1,4 +1,5 @@
 import userImg from "../img/user.jpg"
+import {isNumber} from "util";
 
 export type LocationUserType = {
     city: string
@@ -6,7 +7,7 @@ export type LocationUserType = {
 }
 
 export type UserType = {
-    id: string
+    id: number
     photos: {
         small: string | null
         large: string | null
@@ -14,7 +15,7 @@ export type UserType = {
     followed: boolean
     name: string
     status: string
-    location: LocationUserType
+    //location: LocationUserType
 }
 
 // export type InitialStateUsersType = {
@@ -28,10 +29,11 @@ let initialState = {
         // {id: "3", avatar: userImg, followed: true, nameUser: "Vanja", status: "I'm a russian man", location: {city: "Moscow", country: "Russia"}},
         // {id: "4", avatar: userImg, followed: false, nameUser: "Crot", status: "I sleep", location: {city: "London", country: "UK"}},
     ] as Array<UserType>,
-    pageSize: 100,
-    totalUsersCount: 400,
+    pageSize: 10,
+    totalUsersCount: 50,
     currentPage: 1,
     isFetching: true,
+    followingInProgress: [] as Array<number>,
 }
 
 export type InitialStateUsersType = typeof initialState
@@ -75,6 +77,13 @@ export const toggleIsFetching = (isFetching: boolean) => {
         isFetching
     } as const
 }
+export const toggleIsFollowingInProgress = (userId: number, isFetching: boolean) => {
+    return {
+        type: "SET-TOGGLE-IS-FOLLOWING-PROGRESS",
+        userId,
+        isFetching,
+    } as const
+}
 
 type UsersActionsType =
     ReturnType<typeof followUser>
@@ -83,6 +92,7 @@ type UsersActionsType =
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof toggleIsFollowingInProgress>
 
 
 export const usersReducer = (state: InitialStateUsersType = initialState, action: UsersActionsType): InitialStateUsersType => {
@@ -91,7 +101,7 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
             return {
                 ...state,
                 users: state.users.map(el => {
-                    if (el.id === action.id) {
+                    if (el.id.toString() === action.id) {
                         return {...el, followed: true}
                     }
                     return el
@@ -102,7 +112,7 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
             return {
                 ...state,
                 users: state.users.map(el => {
-                    if (el.id === action.id) {
+                    if (el.id.toString() === action.id) {
                         return {...el, followed: false}
                     }
                     return el
@@ -132,6 +142,13 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
                 ...state,
                 isFetching: action.isFetching
             }
+        }
+        case "SET-TOGGLE-IS-FOLLOWING-PROGRESS": {
+            return {
+                ...state,
+                followingInProgress: action.isFetching
+                ? [...state.followingInProgress, action.userId] : state.followingInProgress.filter(id => id !== action.userId)
+        }
         }
         default:
             return state;
