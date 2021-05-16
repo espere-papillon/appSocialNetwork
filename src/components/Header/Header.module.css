@@ -4,7 +4,15 @@
 }
 
 .header img {
-    width: 100%;
+    width: 50%;
     height: 60px;
     /*background-color: aquamarine;*/
+}
+
+.loginBlock {
+    float: right;
+    z-index: 0;
+}
+.loginBlock a {
+    color: white;
 }
