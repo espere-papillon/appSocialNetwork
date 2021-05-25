@@ -3,7 +3,6 @@ import {UserType} from "../../redux/users-reducer";
 import userImg from "../../img/user.jpg";
 import styles from "./Users.module.css"
 import {NavLink} from "react-router-dom";
-import {authAPI} from "../../api/api";
 
 type dataPropsType = {
     users: Array<UserType>
@@ -14,7 +13,6 @@ type dataPropsType = {
     onPageChanged: (pageNumber: number) => void
     follow: (id: string) => void
     unfollow: (id: string) => void
-    toggleIsFollowingInProgress: (userId: number, isFetching: boolean) => void
 }
 
 export const Users: React.FC<dataPropsType> = props => {
@@ -53,9 +51,9 @@ export const Users: React.FC<dataPropsType> = props => {
                     </div>
                     {user.followed ?
                         <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-                            props.unfollow(user.id.toString())
+                            unfollow(user.id.toString())
                         }}>Unfollow</button> : <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-                            props.unfollow(user.id.toString())
+                            follow(user.id.toString())
                         }}>Follow</button>}
                 </div>
                 <div className={styles.description}>

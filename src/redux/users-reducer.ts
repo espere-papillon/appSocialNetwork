@@ -1,4 +1,4 @@
-import {authAPI} from "../api/api";
+import {authAPI, userAPI} from "../api/api";
 import {AppThunk} from "./redux-store";
 
 export type LocationUserType = {
@@ -18,17 +18,9 @@ export type UserType = {
     //location: LocationUserType
 }
 
-// export type InitialStateUsersType = {
-//     users: Array<UserType>
-// }
 
 let initialState = {
-    users: [
-        // {id: "1", avatar: userImg, followed: true, nameUser: "Cat", status: "I'm Cat", location: {city: "NY", country: "USA"}},
-        // {id: "2", avatar: userImg, followed: false, nameUser: "Tor", status: "I'm Got", location: {city: "LA", country: "USA"}},
-        // {id: "3", avatar: userImg, followed: true, nameUser: "Vanja", status: "I'm a russian man", location: {city: "Moscow", country: "Russia"}},
-        // {id: "4", avatar: userImg, followed: false, nameUser: "Crot", status: "I sleep", location: {city: "London", country: "UK"}},
-    ] as Array<UserType>,
+    users: [] as Array<UserType>,
     pageSize: 10,
     totalUsersCount: 50,
     currentPage: 1,
@@ -158,7 +150,7 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
 export const getUsers = (currentPage: number, pageSize: number): AppThunk => {
     return (dispath) => {
         dispath(toggleIsFetching(true))
-        authAPI.getUsers(currentPage, pageSize).then(data => {
+        userAPI.getUsers(currentPage, pageSize).then(data => {
             dispath(toggleIsFetching(false))
             dispath(setUsers(data.items))
             dispath(setTotalUsersCount(data.totalCount))
@@ -169,7 +161,7 @@ export const getUsers = (currentPage: number, pageSize: number): AppThunk => {
 export const unfollow = (userId: number): AppThunk => {
     return (dispath) => {
         dispath(toggleIsFetching(true))
-        authAPI.unfollowUser(userId).then(response => {
+        userAPI.unfollowUser(userId).then(response => {
             if (response.data.resultCode === 0) {
                 unfollowUser(userId.toString())
             }
@@ -181,7 +173,7 @@ export const unfollow = (userId: number): AppThunk => {
 export const follow = (userId: number): AppThunk => {
     return (dispath) => {
         dispath(toggleIsFetching(true))
-        authAPI.followUser(userId).then(response => {
+        userAPI.followUser(userId).then(response => {
             if (response.data.resultCode === 0) {
                 unfollowUser(userId.toString())
             }

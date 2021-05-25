@@ -3,7 +3,6 @@ import {AppStateType} from "../../redux/redux-store";
 import {
     followUser, getUsers,
     setCurrentPage,
-    toggleIsFollowingInProgress,
     unfollowUser,
     UserType
 } from "../../redux/users-reducer";
@@ -21,7 +20,6 @@ type dataPropsType = {
     followUser: (id: string) => void
     unfollowUser: (id: string) => void
     setCurrentPage: (currentPage: number) => void
-    toggleIsFollowingInProgress: (userId: number, isFetching: boolean) => void
     getUsers: (currentPage: number, pageSize: number) => void
 }
 
@@ -41,7 +39,7 @@ class UsersAPIComponent extends React.Component<dataPropsType, AppStateType> {
             {this.props.isFetching ? <Preloader/> : null}
             <Users users={this.props.users} onPageChanged={this.onPageChanged} currentPage={this.props.currentPage}
                    totalUsersCount={this.props.totalUsersCount} pageSize={this.props.pageSize} followingInProgress={this.props.followingInProgress}
-                   follow={this.props.followUser} unfollow={this.props.unfollowUser} toggleIsFollowingInProgress={this.props.toggleIsFollowingInProgress} />
+                   follow={this.props.followUser} unfollow={this.props.unfollowUser} />
         </>
     }
 }
@@ -61,6 +59,5 @@ export const UsersContainer = connect(mapStateToProps, {
     followUser,
     unfollowUser,
     setCurrentPage,
-    toggleIsFollowingInProgress,
     getUsers,
 })(UsersAPIComponent)
