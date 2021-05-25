@@ -1,3 +1,6 @@
+import {AppThunk} from "./redux-store";
+import {authAPI} from "../api/api";
+import {setTotalUsersCount, setUsers, toggleIsFetching} from "./users-reducer";
 
 export type PostType = {
     id?: string
@@ -100,5 +103,13 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
         }
         default:
             return state;
+    }
+}
+
+export const getProfile = (userId: number): AppThunk => {
+    return (dispath) => {
+        authAPI.getProfile(userId).then(data => {
+            dispath(setUserProfile(data))
+        })
     }
 }

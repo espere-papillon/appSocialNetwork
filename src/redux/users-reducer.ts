@@ -1,4 +1,4 @@
-import {authAPI} from "../api/api";
+import {authAPI, userAPI} from "../api/api";
 import {AppThunk} from "./redux-store";
 
 export type LocationUserType = {
@@ -150,7 +150,7 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
 export const getUsers = (currentPage: number, pageSize: number): AppThunk => {
     return (dispath) => {
         dispath(toggleIsFetching(true))
-        authAPI.getUsers(currentPage, pageSize).then(data => {
+        userAPI.getUsers(currentPage, pageSize).then(data => {
             dispath(toggleIsFetching(false))
             dispath(setUsers(data.items))
             dispath(setTotalUsersCount(data.totalCount))
@@ -161,7 +161,7 @@ export const getUsers = (currentPage: number, pageSize: number): AppThunk => {
 export const unfollow = (userId: number): AppThunk => {
     return (dispath) => {
         dispath(toggleIsFetching(true))
-        authAPI.unfollowUser(userId).then(response => {
+        userAPI.unfollowUser(userId).then(response => {
             if (response.data.resultCode === 0) {
                 unfollowUser(userId.toString())
             }
@@ -173,7 +173,7 @@ export const unfollow = (userId: number): AppThunk => {
 export const follow = (userId: number): AppThunk => {
     return (dispath) => {
         dispath(toggleIsFetching(true))
-        authAPI.followUser(userId).then(response => {
+        userAPI.followUser(userId).then(response => {
             if (response.data.resultCode === 0) {
                 unfollowUser(userId.toString())
             }
