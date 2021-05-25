@@ -1,5 +1,3 @@
-import {ActionsType} from "./store";
-//import {store} from "./redux-store";
 
 export type DialogItemType = {
     id: string
@@ -29,6 +27,10 @@ export const updateNewMessageText = (newText: string) => {
     } as const
 }
 
+export type DialogsActionsType =
+    ReturnType<typeof addMessage>
+    | ReturnType<typeof updateNewMessageText>
+
 let initialState = {
     dialogs: [
         {id: "1", name: "Marina"},
@@ -45,7 +47,7 @@ let initialState = {
 
 type InitialStateType = typeof initialState
 
-export const dialogsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const dialogsReducer = (state: InitialStateType = initialState, action: DialogsActionsType): InitialStateType => {
     switch (action.type) {
         case "ADD-MESSAGE": {
             let newMessage = {

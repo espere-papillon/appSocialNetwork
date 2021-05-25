@@ -1,5 +1,3 @@
-import {ActionsType} from "./store";
-
 
 export type PostType = {
     id?: string
@@ -58,6 +56,11 @@ export const setUserProfile = (profileUser: ProfileUserType) => {
     } as const
 }
 
+export type ProfileActionsType =
+    ReturnType<typeof addPost>
+    | ReturnType<typeof updateNewPostText>
+    | ReturnType<typeof setUserProfile>
+
 let initialState = {
     posts: [
         {id: "1", title: "Hello", likesCount: 5},
@@ -71,7 +74,7 @@ let initialState = {
 
 type InitialStateType = typeof initialState
 
-export const profileReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const profileReducer = (state: InitialStateType = initialState, action: ProfileActionsType): InitialStateType => {
     switch (action.type) {
         case "ADD-POST": {
             let newPost = {
