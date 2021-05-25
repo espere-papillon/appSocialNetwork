@@ -14,7 +14,6 @@ type dataPropsType = {
     onPageChanged: (pageNumber: number) => void
     follow: (id: string) => void
     unfollow: (id: string) => void
-    toggleIsFollowingInProgress: (userId: number, isFetching: boolean) => void
 }
 
 export const Users: React.FC<dataPropsType> = props => {

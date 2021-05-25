@@ -18,17 +18,9 @@ export type UserType = {
     //location: LocationUserType
 }
 
-// export type InitialStateUsersType = {
-//     users: Array<UserType>
-// }
 
 let initialState = {
-    users: [
-        // {id: "1", avatar: userImg, followed: true, nameUser: "Cat", status: "I'm Cat", location: {city: "NY", country: "USA"}},
-        // {id: "2", avatar: userImg, followed: false, nameUser: "Tor", status: "I'm Got", location: {city: "LA", country: "USA"}},
-        // {id: "3", avatar: userImg, followed: true, nameUser: "Vanja", status: "I'm a russian man", location: {city: "Moscow", country: "Russia"}},
-        // {id: "4", avatar: userImg, followed: false, nameUser: "Crot", status: "I sleep", location: {city: "London", country: "UK"}},
-    ] as Array<UserType>,
+    users: [] as Array<UserType>,
     pageSize: 10,
     totalUsersCount: 50,
     currentPage: 1,
