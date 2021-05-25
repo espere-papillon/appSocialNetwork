@@ -12,8 +12,8 @@ type dataPropsType = {
     currentPage: number
     followingInProgress: Array<number>
     onPageChanged: (pageNumber: number) => void
-    followUser: (id: string) => void
-    unfollowUser: (id: string) => void
+    follow: (id: string) => void
+    unfollow: (id: string) => void
     toggleIsFollowingInProgress: (userId: number, isFetching: boolean) => void
 }
 
@@ -25,8 +25,8 @@ export const Users: React.FC<dataPropsType> = props => {
         pageSize,
         currentPage,
         onPageChanged,
-        followUser,
-        unfollowUser,
+        follow,
+        unfollow,
     } = props
 
     let pagesCount = Math.ceil(totalUsersCount / pageSize)
@@ -53,21 +53,9 @@ export const Users: React.FC<dataPropsType> = props => {
                     </div>
                     {user.followed ?
                         <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-                            props.toggleIsFollowingInProgress(user.id, true)
-                            authAPI.unfollowUser(user.id).then(response => {
-                                if (response.data.resultCode === 0) {
-                                    unfollowUser(user.id.toString())
-                                }
-                                props.toggleIsFollowingInProgress(user.id, false)
-                            })
+                            props.unfollow(user.id.toString())
                         }}>Unfollow</button> : <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-                            props.toggleIsFollowingInProgress(user.id, true)
-                            authAPI.followUser(user.id).then(response => {
-                                if (response.data.resultCode === 0) {
-                                    followUser(user.id.toString())
-                                }
-                                props.toggleIsFollowingInProgress(user.id, false)
-                            })
+                            props.unfollow(user.id.toString())
                         }}>Follow</button>}
                 </div>
                 <div className={styles.description}>
