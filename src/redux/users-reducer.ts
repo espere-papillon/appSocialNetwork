@@ -1,5 +1,5 @@
-import userImg from "../img/user.jpg"
-import {isNumber} from "util";
+import {authAPI} from "../api/api";
+import {AppThunk} from "./redux-store";
 
 export type LocationUserType = {
     city: string
@@ -85,7 +85,7 @@ export const toggleIsFollowingInProgress = (userId: number, isFetching: boolean)
     } as const
 }
 
-type UsersActionsType =
+export type UsersActionsType =
     ReturnType<typeof followUser>
     | ReturnType<typeof unfollowUser>
     | ReturnType<typeof setUsers>
@@ -147,10 +147,45 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
             return {
                 ...state,
                 followingInProgress: action.isFetching
-                ? [...state.followingInProgress, action.userId] : state.followingInProgress.filter(id => id !== action.userId)
-        }
+                    ? [...state.followingInProgress, action.userId] : state.followingInProgress.filter(id => id !== action.userId)
+            }
         }
         default:
             return state;
+    }
+}
+
+export const getUsers = (currentPage: number, pageSize: number): AppThunk => {
+    return (dispath) => {
+        dispath(toggleIsFetching(true))
+        authAPI.getUsers(currentPage, pageSize).then(data => {
+            dispath(toggleIsFetching(false))
+            dispath(setUsers(data.items))
+            dispath(setTotalUsersCount(data.totalCount))
+        })
+    }
+}
+
+export const unfollow = (userId: number): AppThunk => {
+    return (dispath) => {
+        dispath(toggleIsFetching(true))
+        authAPI.unfollowUser(userId).then(response => {
+            if (response.data.resultCode === 0) {
+                unfollowUser(userId.toString())
+            }
+            toggleIsFollowingInProgress(userId, false)
+        })
+    }
+}
+
+export const follow = (userId: number): AppThunk => {
+    return (dispath) => {
+        dispath(toggleIsFetching(true))
+        authAPI.followUser(userId).then(response => {
+            if (response.data.resultCode === 0) {
+                unfollowUser(userId.toString())
+            }
+            toggleIsFollowingInProgress(userId, false)
+        })
     }
 }
