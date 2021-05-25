@@ -1,4 +1,6 @@
 import axios from "axios";
+import {DataUserLoginType, setAuthUserData} from "../redux/auth-reducer";
+import {ProfileUserType} from "../redux/profile-reducer";
 
 const instance = axios.create({
     withCredentials: true,
@@ -23,7 +25,14 @@ type dataUsersType = {
     error: string
 }
 
-export const authAPI = {
+export type dataAuthUserType = {
+    data: DataUserLoginType
+    resultCode: number
+    messages: Array<string>
+    fieldErrors: Array<string>
+}
+
+export const userAPI = {
     getUsers(currentPage: number = 1, pageSize: number = 10) {
         return instance.get<dataUsersType>(`users?page=${currentPage}&count=${pageSize}`)
             .then(response => response.data)
@@ -33,5 +42,16 @@ export const authAPI = {
     },
     unfollowUser(userId: number) {
         return instance.delete(`follow/${userId}`)
+    },
+}
+
+export const authAPI = {
+    authUser() {
+        return instance.get<dataAuthUserType>(`auth/me`)
+            .then(response => response.data)
+    },
+    getProfile(userId: number) {
+        return instance.get<ProfileUserType>(`profile/` + userId)
+            .then(response => response.data)
     }
 }
