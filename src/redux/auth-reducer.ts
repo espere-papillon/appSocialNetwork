@@ -47,13 +47,14 @@ export const authReducer = (state: InitialStateUsersType = initialState, action:
     }
 }
 
-export const authentication = (): AppThunk => {
-    return (dispath) => {
-        authAPI.authUser().then(data => {
-            if (data.resultCode === 0) {
-                let { id, login, email} = data.data
-                dispath(setAuthUserData(id, login, email))
-            }
-        })
+export const authentication = (): AppThunk =>
+    async dispath => {
+        const res = await authAPI.authUser()
+        if (res.resultCode === 0) {
+            let {id, login, email} = res.data
+            dispath(setAuthUserData(id, login, email))
+        }
     }
-}
+
+
+

@@ -147,37 +147,64 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
     }
 }
 
-export const getUsers = (currentPage: number, pageSize: number): AppThunk => {
-    return (dispath) => {
-        dispath(toggleIsFetching(true))
-        userAPI.getUsers(currentPage, pageSize).then(data => {
-            dispath(toggleIsFetching(false))
-            dispath(setUsers(data.items))
-            dispath(setTotalUsersCount(data.totalCount))
-        })
-    }
+// export const getUsers = (currentPage: number, pageSize: number): AppThunk => {
+//     return (dispath) => {
+//         dispath(toggleIsFetching(true))
+//         userAPI.getUsers(currentPage, pageSize).then(data => {
+//             dispath(toggleIsFetching(false))
+//             dispath(setUsers(data.items))
+//             dispath(setTotalUsersCount(data.totalCount))
+//         })
+//     }
+// }
+
+export const getUsers = (currentPage: number, pageSize: number): AppThunk => async dispath => {
+    dispath(toggleIsFetching(true))
+    const res = await userAPI.getUsers(currentPage, pageSize)
+    dispath(toggleIsFetching(false))
+    dispath(setUsers(res.items))
+    dispath(setTotalUsersCount(res.totalCount))
 }
 
-export const unfollow = (userId: number): AppThunk => {
-    return (dispath) => {
-        dispath(toggleIsFetching(true))
-        userAPI.unfollowUser(userId).then(response => {
-            if (response.data.resultCode === 0) {
-                unfollowUser(userId.toString())
-            }
-            toggleIsFollowingInProgress(userId, false)
-        })
+
+// export const _unfollow = (userId: number): AppThunk => {
+//     return (dispath) => {
+//         dispath(toggleIsFetching(true))
+//         userAPI.unfollowUser(userId).then(response => {
+//             if (response.data.resultCode === 0) {
+//                 unfollowUser(userId.toString())
+//             }
+//             toggleIsFollowingInProgress(userId, false)
+//         })
+//     }
+// }
+
+export const unfollow = (userId: number): AppThunk => async dispath => {
+    dispath(toggleIsFetching(true))
+    const res = await userAPI.unfollowUser(userId)
+    if (res.data.resultCode === 0) {
+        dispath(unfollowUser(userId.toString()))
     }
+    dispath(toggleIsFollowingInProgress(userId, false))
 }
 
-export const follow = (userId: number): AppThunk => {
-    return (dispath) => {
-        dispath(toggleIsFetching(true))
-        userAPI.followUser(userId).then(response => {
-            if (response.data.resultCode === 0) {
-                unfollowUser(userId.toString())
-            }
-            toggleIsFollowingInProgress(userId, false)
-        })
+// export const _follow = (userId: number): AppThunk => {
+//     return (dispath) => {
+//         dispath(toggleIsFetching(true))
+//         userAPI.followUser(userId).then(response => {
+//             if (response.data.resultCode === 0) {
+//                 unfollowUser(userId.toString())
+//             }
+//             toggleIsFollowingInProgress(userId, false)
+//         })
+//     }
+// }
+
+export const follow = (userId: number): AppThunk => async dispath => {
+    dispath(toggleIsFetching(true))
+    const res = await userAPI.followUser(userId)
+    if (res.data.resultCode === 0) {
+        dispath(unfollowUser(userId.toString()))
     }
+    dispath(toggleIsFollowingInProgress(userId, false))
 }
