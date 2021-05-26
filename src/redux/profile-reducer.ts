@@ -106,10 +106,15 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
     }
 }
 
-export const getProfile = (userId: number): AppThunk => {
-    return (dispath) => {
-        authAPI.getProfile(userId).then(data => {
-            dispath(setUserProfile(data))
-        })
-    }
+// export const _getProfileUser = (userId: number): AppThunk => {
+//     return (dispath) => {
+//         authAPI.getProfile(userId).then(data => {
+//             dispath(setUserProfile(data))
+//         })
+//     }
+// }
+
+export const getProfileUser = (userId: number): AppThunk => async dispath => {
+    const res = await authAPI.getProfile(userId)
+    dispath(setUserProfile(res))
 }

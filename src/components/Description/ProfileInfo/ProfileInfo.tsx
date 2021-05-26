@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../Description.module.css";
 import {ProfileUserType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
+import userImg from "../../../img/user.jpg";
 
 type dataPropsType = {
     profileUser: ProfileUserType | null
@@ -20,7 +21,7 @@ export function ProfileInfo(props: dataPropsType) {
             </div>
             <div className={styles.descriptionText}>
                 <h2>{props.profileUser.fullName}</h2>
-                <img src={props.profileUser.photos.large} alt={"ava"}/>
+                <img src={props.profileUser.photos.large ? props.profileUser.photos.large : userImg} alt={"ava"}/>
                 <div>
                     {props.profileUser.aboutMe}
                 </div>
