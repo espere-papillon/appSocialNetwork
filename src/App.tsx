@@ -11,6 +11,7 @@ import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import {ProfileUserContainer} from "./components/Description/ProfileContainer";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
+import {Login} from "./components/Login/Login";
 
 type AppPropsType = {
     // state: StateType
@@ -32,6 +33,7 @@ const App = (props: AppPropsType) => {
                     <Route path={"/music"} render={() => <Music/>}/>
                     {/*<Route path={"/saved"} component={Saved}/>*/}
                     <Route path={"/settings"} render={() => <Settings/>}/>
+                    <Route path={"/login"} render={() => <Login />}/>
                 </div>
             </div>
         </BrowserRouter>
