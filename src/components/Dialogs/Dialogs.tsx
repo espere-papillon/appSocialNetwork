@@ -30,10 +30,6 @@ export const Dialogs: React.FC<dataPropsType> = (props) => {
 
     const updateMessageText = (event: ChangeEvent<HTMLTextAreaElement>) => {props.updateMessageText(event.currentTarget.value)}
 
-    if (!props.isAuth) {
-        return <Redirect to={"/login"}/>
-    }
-
     return (
         <div className={styles.dialogs}>
             <div className={styles.dialogsItem}>
