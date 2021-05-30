@@ -50,7 +50,7 @@ export const authAPI = {
         return instance.get<dataAuthUserType>(`auth/me`)
             .then(response => response.data)
     },
-    getProfile(userId: number) {
+    getProfile(userId: string) {
         return instance.get<ProfileUserType>(`profile/` + userId)
             .then(response => response.data)
     }

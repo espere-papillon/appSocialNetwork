@@ -114,7 +114,7 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
 //     }
 // }
 
-export const getProfileUser = (userId: number): AppThunk => async dispath => {
-    const res = await authAPI.getProfile(userId)
+export const getProfileUser = (userId: string): AppThunk => async dispath => {
+    const res = await authAPI.getProfile(userId.toString())
     dispath(setUserProfile(res))
 }

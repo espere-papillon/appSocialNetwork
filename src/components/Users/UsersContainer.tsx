@@ -9,6 +9,8 @@ import {
 import React from "react";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
+import {compose} from "redux";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 type dataPropsType = {
     users: Array<UserType>
@@ -55,9 +57,13 @@ let mapStateToProps = (state: AppStateType) => {
     }
 }
 
-export const UsersContainer = connect(mapStateToProps, {
+// export const UsersContainer = connect(mapStateToProps, {followUser, unfollowUser, setCurrentPage, getUsers})(UsersAPIComponent)
+
+export const UsersContainer = compose(
+    connect(mapStateToProps, {
     followUser,
     unfollowUser,
     setCurrentPage,
-    getUsers,
-})(UsersAPIComponent)
+    getUsers}),
+    withAuthRedirect
+)(UsersAPIComponent)
