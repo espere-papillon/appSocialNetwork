@@ -1,20 +1,12 @@
+import {AppThunk} from "./redux-store";
+import {authAPI} from "../api/api";
+import {toggleIsFollowingInProgress, unfollowUser} from "./users-reducer";
 
 export type DataUserLoginType = {
     id: number
     login: string
     email: string
 }
-
-// export type ResultUserAuthType = {
-//     data: DataUserLoginType
-//     resultCode: number
-//     messages: Array<string>
-//     fieldErrors: Array<string>
-// }
-
-// export type InitialStateUsersType = {
-//     users: Array<UserType>
-// }
 
 let initialState = {
     data: {
@@ -54,3 +46,15 @@ export const authReducer = (state: InitialStateUsersType = initialState, action:
             return state;
     }
 }
+
+export const authentication = (): AppThunk =>
+    async dispath => {
+        const res = await authAPI.authUser()
+        if (res.resultCode === 0) {
+            let {id, login, email} = res.data
+            dispath(setAuthUserData(id, login, email))
+        }
+    }
+
+
+

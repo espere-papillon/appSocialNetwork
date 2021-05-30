@@ -3,6 +3,7 @@ import styles from "./Dialogs.module.css";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogItemType, MessageType} from "../../redux/dialogs-reducer";
+import { Redirect } from "react-router-dom";
 
 type DialogsMessagePropsType = {
     dialogs: Array<DialogItemType>
@@ -12,6 +13,7 @@ type DialogsMessagePropsType = {
 
 type dataPropsType = {
     dialogsPage: DialogsMessagePropsType
+    isAuth: boolean
     addMessage: () => void
     updateMessageText: (text: string) => void
 }

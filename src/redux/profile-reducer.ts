@@ -1,5 +1,6 @@
-import {ActionsType} from "./store";
-
+import {AppThunk} from "./redux-store";
+import {authAPI} from "../api/api";
+import {setTotalUsersCount, setUsers, toggleIsFetching} from "./users-reducer";
 
 export type PostType = {
     id?: string
@@ -58,6 +59,11 @@ export const setUserProfile = (profileUser: ProfileUserType) => {
     } as const
 }
 
+export type ProfileActionsType =
+    ReturnType<typeof addPost>
+    | ReturnType<typeof updateNewPostText>
+    | ReturnType<typeof setUserProfile>
+
 let initialState = {
     posts: [
         {id: "1", title: "Hello", likesCount: 5},
@@ -71,7 +77,7 @@ let initialState = {
 
 type InitialStateType = typeof initialState
 
-export const profileReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const profileReducer = (state: InitialStateType = initialState, action: ProfileActionsType): InitialStateType => {
     switch (action.type) {
         case "ADD-POST": {
             let newPost = {
@@ -98,4 +104,17 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
         default:
             return state;
     }
+}
+
+// export const _getProfileUser = (userId: number): AppThunk => {
+//     return (dispath) => {
+//         authAPI.getProfile(userId).then(data => {
+//             dispath(setUserProfile(data))
+//         })
+//     }
+// }
+
+export const getProfileUser = (userId: string): AppThunk => async dispath => {
+    const res = await authAPI.getProfile(userId.toString())
+    dispath(setUserProfile(res))
 }
