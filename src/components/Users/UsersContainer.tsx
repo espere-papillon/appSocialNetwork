@@ -59,7 +59,7 @@ let mapStateToProps = (state: AppStateType) => {
 
 // export const UsersContainer = connect(mapStateToProps, {followUser, unfollowUser, setCurrentPage, getUsers})(UsersAPIComponent)
 
-export const UsersContainer = compose(
+export const UsersContainer = compose<React.ComponentType>(
     connect(mapStateToProps, {
     followUser,
     unfollowUser,
