@@ -82,7 +82,7 @@ let initialState = {
     ] as Array<PostType>,
     profileUser: null as ProfileUserType | null,
     newPostText: "it-kamasutra",
-    status: "",
+    status: "hey",
 }
 
 type InitialStateType = typeof initialState
