@@ -1,5 +1,5 @@
 import {AppThunk} from "./redux-store";
-import {authAPI} from "../api/api";
+import {authAPI, profileAPI} from "../api/api";
 import {setTotalUsersCount, setUsers, toggleIsFetching} from "./users-reducer";
 
 export type PostType = {
@@ -35,6 +35,7 @@ export type ProfilePageType = {
     posts: Array<PostType>
     profileUser: ProfileUserType
     newPostText: string
+    status: string
 }
 
 export const addPost = (text: string) => {
@@ -59,10 +60,18 @@ export const setUserProfile = (profileUser: ProfileUserType) => {
     } as const
 }
 
+export const setStatus = (status: string) => {
+    return {
+        type: "SET-STATUS",
+        status
+    } as const
+}
+
 export type ProfileActionsType =
     ReturnType<typeof addPost>
     | ReturnType<typeof updateNewPostText>
     | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof setStatus>
 
 let initialState = {
     posts: [
@@ -73,6 +82,7 @@ let initialState = {
     ] as Array<PostType>,
     profileUser: null as ProfileUserType | null,
     newPostText: "it-kamasutra",
+    status: "",
 }
 
 type InitialStateType = typeof initialState
@@ -101,6 +111,12 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
                 profileUser: action.profileUser
             }
         }
+        case "SET-STATUS": {
+            return {
+                ...state,
+                status: action.status
+            }
+        }
         default:
             return state;
     }
@@ -117,4 +133,15 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
 export const getProfileUser = (userId: string): AppThunk => async dispath => {
     const res = await authAPI.getProfile(userId.toString())
     dispath(setUserProfile(res))
+}
+export const getUserStatus = (userId: string): AppThunk => async dispath => {
+    const res = await profileAPI.getStatus(userId.toString())
+    dispath(setStatus(res))
+}
+export const updateUserStatus = (status: string): AppThunk => async dispath => {
+    const res = await profileAPI.updateStatus(status).then(response => {
+        if (response.data.resultCode === 0) {
+            dispath(setStatus(status))
+        }
+    })
 }

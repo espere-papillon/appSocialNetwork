@@ -9,7 +9,7 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
         editMode: false
     }
 
-    activateEdiMode () {
+    activateEdiMode = () => {
         this.setState({
             editMode: true
         })
@@ -28,7 +28,7 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
                 <div>
                     {!this.state.editMode &&
                     <div>
-                        <span onDoubleClick={this.activateEdiMode.bind(this)}>{this.props.status}</span>
+                        <span onDoubleClick={this.activateEdiMode}>{this.props.status}</span>
                     </div>
                     }
                     {this.state.editMode &&
