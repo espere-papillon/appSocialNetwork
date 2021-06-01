@@ -139,9 +139,8 @@ export const getUserStatus = (userId: string): AppThunk => async dispath => {
     dispath(setStatus(res))
 }
 export const updateUserStatus = (status: string): AppThunk => async dispath => {
-    const res = await profileAPI.updateStatus(status).then(response => {
-        if (response.data.resultCode === 0) {
-            dispath(setStatus(status))
-        }
-    })
+    const res = await profileAPI.updateStatus(status)
+    if (res.data.resultCode === 0) {
+        dispath(setStatus(status))
+    }
 }
