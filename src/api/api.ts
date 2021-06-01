@@ -25,8 +25,8 @@ type dataUsersType = {
     error: string
 }
 
-export type dataAuthUserType = {
-    data: DataUserLoginType
+export type ResponseType<T> = {
+    data: T
     resultCode: number
     messages: Array<string>
     fieldErrors: Array<string>
@@ -47,7 +47,7 @@ export const userAPI = {
 
 export const authAPI = {
     authUser() {
-        return instance.get<dataAuthUserType>(`auth/me`)
+        return instance.get<ResponseType<DataUserLoginType>>(`auth/me`)
             .then(response => response.data)
     },
     getProfile(userId: string) {
@@ -64,12 +64,10 @@ export const profileAPI = {
             .then(response => response.data)
     },
     getStatus(userId: string) {
-        debugger
         return instance.get<string>(`profile/status/` + userId)
             .then(response => response.data)
     },
     updateStatus(status: string) {
-        debugger
-        return instance.put(`profile/status/`, {status: status})
+        return instance.put<ResponseType<{}>>(`profile/status/`, {status})
     }
 }
