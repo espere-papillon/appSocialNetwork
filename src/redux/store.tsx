@@ -1,4 +1,4 @@
-import {addPost, ProfilePageType, profileReducer, setUserProfile, updateNewPostText} from "./profile-reducer";
+import {addPost, ProfilePageType, profileReducer, setUserProfile} from "./profile-reducer";
 import {addMessage, DialogsPageType, dialogsReducer, updateNewMessageText} from "./dialogs-reducer";
 
 export type StateType = {
@@ -16,7 +16,6 @@ export type RootStoreType = {
 
 export type ActionsType =
     ReturnType<typeof addPost>
-    | ReturnType<typeof updateNewPostText>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof addMessage>
     | ReturnType<typeof updateNewMessageText>
