@@ -38,18 +38,11 @@ export type ProfilePageType = {
     status: string
 }
 
-export const addPost = (text: string) => {
+export const addPost = (newPostText: string) => {
     return {
         type: "ADD-POST",
-        text
+        newPostText
         // newPostText: store.getState().newPostText
-    } as const
-}
-
-export const updateNewPostText = (newText: string) => {
-    return {
-        type: "UPDATE-NEW-POST-TEXT",
-        newText: newText
     } as const
 }
 
@@ -69,7 +62,6 @@ export const setStatus = (status: string) => {
 
 export type ProfileActionsType =
     ReturnType<typeof addPost>
-    | ReturnType<typeof updateNewPostText>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
 
@@ -81,7 +73,6 @@ let initialState = {
         {id: "4", title: "Thank u", likesCount: 10}
     ] as Array<PostType>,
     profileUser: null as ProfileUserType | null,
-    newPostText: "it-kamasutra",
     status: "hey",
 }
 
@@ -92,17 +83,11 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
         case "ADD-POST": {
             let newPost = {
                 id: new Date().getTime().toString(),
-                title: action.text,
+                title: action.newPostText,
                 likesCount: 0,
             }
             let stateCopy = {...state}
             stateCopy.posts = [...state.posts, newPost]
-            stateCopy.newPostText = ""
-            return stateCopy
-        }
-        case "UPDATE-NEW-POST-TEXT": {
-            let stateCopy = {...state}
-            stateCopy.newPostText = action.newText;
             return stateCopy
         }
         case "SET-USER-PROFILE": {
@@ -121,14 +106,6 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
             return state;
     }
 }
-
-// export const _getProfileUser = (userId: number): AppThunk => {
-//     return (dispath) => {
-//         authAPI.getProfile(userId).then(data => {
-//             dispath(setUserProfile(data))
-//         })
-//     }
-// }
 
 export const getProfileUser = (userId: string): AppThunk => async dispath => {
     const res = await authAPI.getProfile(userId.toString())
