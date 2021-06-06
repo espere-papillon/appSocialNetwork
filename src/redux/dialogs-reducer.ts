@@ -13,9 +13,10 @@ export type DialogsPageType = {
     newMessageText: string
 }
 
-export const addMessage = () => {
+export const addMessage = (newMessageText: string) => {
     return {
         type: "ADD-MESSAGE",
+        newMessageText
        // newMessageText: store.getState().newMessageText
     } as const
 }
@@ -29,7 +30,6 @@ export const updateNewMessageText = (newText: string) => {
 
 export type DialogsActionsType =
     ReturnType<typeof addMessage>
-    | ReturnType<typeof updateNewMessageText>
 
 let initialState = {
     dialogs: [
@@ -42,7 +42,6 @@ let initialState = {
         {id: "2", message: "How are u?"},
         {id: "3", message: "Yoo"}
     ] as Array<MessageType>,
-    newMessageText: "hey",
 }
 
 type InitialStateType = typeof initialState
@@ -52,16 +51,10 @@ export const dialogsReducer = (state: InitialStateType = initialState, action: D
         case "ADD-MESSAGE": {
             let newMessage = {
                 id: new Date().getTime().toString(),
-                message: state.newMessageText,
+                message: action.newMessageText,
             }
             let stateCopy = {...state}
             stateCopy.messages = [...state.messages, newMessage]
-            stateCopy.newMessageText = ""
-            return stateCopy
-        }
-        case "UPDATE-NEW-MESSAGE-TEXT": {
-            let stateCopy = {...state}
-            stateCopy.newMessageText = action.newText;
             return stateCopy
         }
         default:
