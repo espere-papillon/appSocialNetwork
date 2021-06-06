@@ -5,6 +5,8 @@ import {Message} from "./Message/Message";
 import {DialogItemType, MessageType} from "../../redux/dialogs-reducer";
 import { Redirect } from "react-router-dom";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {Element} from "../common/FormControls/FormControls";
+import {maxLengthCreator, required} from "../../utils/validators/validators";
 
 type DialogsMessagePropsType = {
     dialogs: Array<DialogItemType>
@@ -28,7 +30,6 @@ export const Dialogs: React.FC<dataPropsType> = (props) => {
     let messagesElements = props.dialogsPage.messages.map(message => <Message message={message.message} />)
 
     const addNewMessage = (formData: dataAddMessagePropsType) => {
-        debugger
         console.log(formData.newMessageText)
         props.addMessage(formData.newMessageText)
     }
@@ -46,17 +47,18 @@ export const Dialogs: React.FC<dataPropsType> = (props) => {
     );
 }
 
+const Textarea = Element("textarea")
+
+const maxLength50 = maxLengthCreator(50)
 
 const AddMessageForm: React.FC<InjectedFormProps<dataAddMessagePropsType>> = (props) => {
     return(
         <form className={styles.areaAddMessage} onSubmit={props.handleSubmit}>
             <div>
-                <Field component={"textarea"}
+                <Field component={Textarea}
                        name={"newMessageText"}
+                       validate={[required, maxLength50]}
                        placeholder={"Enter message"} />
-                    {/*<textarea value={props.newMessageText}*/}
-                    {/*          placeholder={"Enter text"}*/}
-                    {/*          onChange={updateMessageText} />*/}
             </div>
             <div>
                 <button>Add</button>
