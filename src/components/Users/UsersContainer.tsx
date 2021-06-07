@@ -46,7 +46,7 @@ class UsersAPIComponent extends React.Component<dataPropsType, AppStateType> {
     }
 }
 
-let mapStateToProps = (state: AppStateType) => {
+const mapStateToProps = (state: AppStateType) => {
     return {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
