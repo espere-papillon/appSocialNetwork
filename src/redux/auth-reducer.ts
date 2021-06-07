@@ -10,9 +10,9 @@ export type DataUserLoginType = {
 
 let initialState = {
     data: {
-        id: 1,
-        login: "test",
-        email: "test@test"
+        id: 0,
+        login: "",
+        email: ""
     } as DataUserLoginType,
     messages: [] as Array<string>,
     fieldErrors: [] as Array<string>,
@@ -22,12 +22,13 @@ let initialState = {
 
 export type InitialStateUsersType = typeof initialState
 
-export const setAuthUserData = (id: number, login: string, email: string) => {
+export const setAuthUserData = (id: number, login: string, email: string, isAuth: boolean) => {
     return {
         type: "SET-USER-DATA",
-        data: {id, login, email}
+        data: {id, login, email, isAuth}
     } as const
 }
+
 
 export type AuthUsersActionsType =
     ReturnType<typeof setAuthUserData>
@@ -39,7 +40,7 @@ export const authReducer = (state: InitialStateUsersType = initialState, action:
             return {
                 ...state,
                 data: {...action.data},
-                isAuth: true,
+                isAuth: action.data.isAuth,
             }
         }
         default:
@@ -52,7 +53,23 @@ export const authentication = (): AppThunk =>
         const res = await authAPI.authUser()
         if (res.resultCode === 0) {
             let {id, login, email} = res.data
-            dispath(setAuthUserData(id, login, email))
+            dispath(setAuthUserData(id, login, email, true))
+        }
+    }
+
+export const login = (email: string, password: string, rememberMe: boolean): AppThunk =>
+    async dispath => {
+        const res = await authAPI.login(email, password, rememberMe)
+        if (res.resultCode === 0) {
+            dispath(authentication())
+        }
+    }
+
+export const logout = (): AppThunk =>
+    async dispath => {
+        const res = await authAPI.logout()
+        if (res.resultCode === 0) {
+            dispath(setAuthUserData(0, "", "", false))
         }
     }
 
