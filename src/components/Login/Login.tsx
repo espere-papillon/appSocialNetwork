@@ -2,11 +2,20 @@ import React from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Element} from "../common/FormControls/FormControls";
 import {required} from "../../utils/validators/validators";
+import {connect} from "react-redux";
+import {login, logout} from "../../redux/auth-reducer";
 
 type FormDataType = {
-    login: string
+    email: string
     password: string
     rememberMe: boolean
+    login: (email: string, password: string, rememberMe: boolean) => void
+    //logout: () => void
+}
+
+type PropsType = {
+    login: (email: string, password: string, rememberMe: boolean) => void
+    //logout: () => void
 }
 
 const Input = Element("input")
@@ -15,10 +24,10 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field placeholder={"Login"} name={"login"} validate={[required]} component={Input}/>
+                <Field placeholder={"Email"} name={"email"} validate={[required]} component={Input}/>
             </div>
             <div>
-                <Field placeholder={"Password"} name={"password"} validate={[required]} component={Input}/>
+                <Field placeholder={"Password"} name={"password"} validate={[required]} type={"password"} component={Input}/>
             </div>
             <div>
                 <Field type={"checkbox"} name={"rememberMe"} component={"input"}/> Remember me
@@ -30,11 +39,12 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     )
 }
 
-const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm)
+const LoginReduxForm = reduxForm<FormDataType>({form: 'email'})(LoginForm)
 
-export const Login = () => {
+export const Login = (props: PropsType) => {
     const onSubmit = (formData: FormDataType) => {
         console.log(formData)
+        props.login(formData.email, formData.password, formData.rememberMe)
     }
     return (
         <div>
@@ -43,3 +53,5 @@ export const Login = () => {
         </div>
     )
 }
+
+export const LoginContainer = connect(null, {login})(Login)

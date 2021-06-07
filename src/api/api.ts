@@ -50,6 +50,14 @@ export const authAPI = {
         return instance.get<ResponseType<DataUserLoginType>>(`auth/me`)
             .then(response => response.data)
     },
+    login(email: string, password: string, rememberMe: boolean = false) {
+        return instance.post<ResponseType<{userId: number}>>(`auth/login`, {email, password, rememberMe})
+            .then(response => response.data)
+    },
+    logout() {
+        return instance.delete<ResponseType<{}>>(`auth/login`)
+            .then(response => response.data)
+    },
     getProfile(userId: string) {
         console.warn('Obsolete method. Please use profileAPI object.')
         return profileAPI.getProfile(userId)

@@ -11,7 +11,7 @@ type dataPropsType = {
     messages: Array<string>
     fieldErrors: Array<string>
     isAuth: boolean
-    setAuthUserData: (id: number, login: string, email: string) => void
+    setAuthUserData: (id: number, login: string, email: string, isAuth: boolean) => void
     authentication: () => void
 }
 
