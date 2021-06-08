@@ -1,6 +1,8 @@
 import {AppThunk} from "./redux-store";
 import {authAPI} from "../api/api";
 import {toggleIsFollowingInProgress, unfollowUser} from "./users-reducer";
+import {stopSubmit} from "redux-form";
+import {FormAction} from "redux-form/lib/actions";
 
 export type DataUserLoginType = {
     id: number
@@ -25,13 +27,14 @@ export type InitialStateUsersType = typeof initialState
 export const setAuthUserData = (id: number, login: string, email: string, isAuth: boolean) => {
     return {
         type: "SET-USER-DATA",
-        data: {id, login, email, isAuth}
+        payload: {id, login, email, isAuth}
     } as const
 }
 
 
 export type AuthUsersActionsType =
     ReturnType<typeof setAuthUserData>
+    | FormAction
 
 
 export const authReducer = (state: InitialStateUsersType = initialState, action: AuthUsersActionsType): InitialStateUsersType => {
@@ -39,8 +42,8 @@ export const authReducer = (state: InitialStateUsersType = initialState, action:
         case "SET-USER-DATA": {
             return {
                 ...state,
-                data: {...action.data},
-                isAuth: action.data.isAuth,
+                data: {...action.payload},
+                isAuth: action.payload.isAuth,
             }
         }
         default:
@@ -59,9 +62,12 @@ export const authentication = (): AppThunk =>
 
 export const login = (email: string, password: string, rememberMe: boolean): AppThunk =>
     async dispath => {
-        const res = await authAPI.login(email, password, rememberMe)
+    const res = await authAPI.login(email, password, rememberMe)
         if (res.resultCode === 0) {
             dispath(authentication())
+        } else {
+            const messageError = res.messages.length > 0 ? res.messages[0] : "Some error"
+            dispath(stopSubmit("login", {_error: messageError}))
         }
     }
 
