@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import {AppStateType, AppThunk} from "../../redux/redux-store";
+import React from "react";
+import {AppStateType} from "../../redux/redux-store";
 import {getProfileUser, getUserStatus, ProfileUserType, updateUserStatus} from "../../redux/profile-reducer";
 import {Description} from "./Description";
 import {connect} from "react-redux";
-import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import { compose } from "redux";
+import {compose} from "redux";
 
 type mapStatePropsType = {
     profileUser: ProfileUserType | null
@@ -31,6 +31,9 @@ class ProfileContainer extends React.Component<dataPropsType, AppStateType> {
         let userId = this.props.match.params.userId
         if (!userId) {
             userId = this.props.authorizedUserId.toString()
+            if (!userId) {
+                this.props.history.push("/login")
+            }
         }
         this.props.getProfileUser(userId)
         this.props.getUserStatus(userId)
@@ -53,8 +56,6 @@ const mapStateToProps = (state: AppStateType): mapStatePropsType => {
         isAuth: state.auth.isAuth
     }
 }
-
-// export const ProfileUserContainer = withAuthRedirect(withRouter(connect(mapStateToProps, {getProfileUser})(ProfileContainer)))
 
 export const ProfileUserContainer = compose<React.ComponentType>(
     connect(mapStateToProps, {getProfileUser, getUserStatus, updateUserStatus}),

@@ -65,5 +65,5 @@ export const UsersContainer = compose<React.ComponentType>(
     unfollowUser,
     setCurrentPage,
     getUsers}),
-    withAuthRedirect
+    //withAuthRedirect
 )(UsersAPIComponent)
