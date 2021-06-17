@@ -62,3 +62,4 @@ export const ProfileUserContainer = compose<React.ComponentType>(
     withRouter,
     withAuthRedirect
 )(ProfileContainer)
+
