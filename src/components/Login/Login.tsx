@@ -12,7 +12,7 @@ type FormDataType = {
     email: string
     password: string
     rememberMe: boolean
-    login: (email: string, password: string, rememberMe: boolean) => void
+    // login: (email: string, password: string, rememberMe: boolean) => void
 }
 
 type PropsType = {
@@ -46,7 +46,7 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
 
 const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm)
 
-export const Login = (props: PropsType) => {
+export const Login:React.FC<PropsType> = (props) => {
     const onSubmit = (formData: FormDataType) => {
         console.log(formData)
         props.login(formData.email, formData.password, formData.rememberMe)
