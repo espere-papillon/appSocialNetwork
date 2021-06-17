@@ -158,9 +158,10 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
 //     }
 // }
 
-export const requestUsers = (currentPage: number, pageSize: number): AppThunk => async dispath => {
+export const requestUsers = (page: number, pageSize: number): AppThunk => async dispath => {
     dispath(toggleIsFetching(true))
-    const res = await userAPI.getUsers(currentPage, pageSize)
+    dispath(setCurrentPage(page))
+    const res = await userAPI.getUsers(page, pageSize)
     dispath(toggleIsFetching(false))
     dispath(setUsers(res.items))
     dispath(setTotalUsersCount(res.totalCount))
