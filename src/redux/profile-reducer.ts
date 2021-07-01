@@ -46,6 +46,14 @@ export const addPost = (newPostText: string) => {
     } as const
 }
 
+export const deletePost = (postId: string) => {
+    return {
+        type: "DELETE-POST",
+        postId
+        // newPostText: store.getState().newPostText
+    } as const
+}
+
 export const setUserProfile = (profileUser: ProfileUserType) => {
     return {
         type: "SET-USER-PROFILE",
@@ -64,6 +72,7 @@ export type ProfileActionsType =
     ReturnType<typeof addPost>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
+    | ReturnType<typeof deletePost>
 
 let initialState = {
     posts: [
@@ -101,6 +110,9 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
                 ...state,
                 status: action.status
             }
+        }
+        case "DELETE-POST": {
+            return { ...state, posts: state.posts.filter(p => p.id !== action.postId)}
         }
         default:
             return state;
