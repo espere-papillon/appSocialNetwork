@@ -15,7 +15,7 @@ type dataAddPostPropsType = {
     newPostText: string
 }
 
-export const Posts: React.FC<postsPropsType> = (props) => {
+export const Posts: React.FC<postsPropsType> = React.memo((props) => {
     let postsElements = props.posts.map(post => <Post title={post.title}
                                                       likesCount={post.likesCount}/>)
 
@@ -31,7 +31,7 @@ export const Posts: React.FC<postsPropsType> = (props) => {
             </div>
         </div>
     )
-}
+})
 
 const Textarea = Element("textarea")
 
