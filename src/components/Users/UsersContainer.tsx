@@ -1,8 +1,9 @@
 import {connect} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
+import {AppStateType, AppThunk} from "../../redux/redux-store";
 import {
+    follow,
     followUser, requestUsers,
-    setCurrentPage,
+    setCurrentPage, unfollow,
     unfollowUser,
     UserType
 } from "../../redux/users-reducer";
@@ -27,8 +28,8 @@ type dataPropsType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: Array<number>
-    followUser: (id: string) => void
-    unfollowUser: (id: string) => void
+    follow: (id: string) => AppThunk
+    unfollow: (id: string) => AppThunk
     setCurrentPage: (currentPage: number) => void
     requestUsers: (currentPage: number, pageSize: number) => void
 }
@@ -50,7 +51,7 @@ class UsersAPIComponent extends React.Component<dataPropsType, AppStateType> {
             <Users users={this.props.users} onPageChanged={this.onPageChanged} currentPage={this.props.currentPage}
                    totalUsersCount={this.props.totalUsersCount} pageSize={this.props.pageSize}
                    followingInProgress={this.props.followingInProgress}
-                   follow={this.props.followUser} unfollow={this.props.unfollowUser}/>
+                   follow={this.props.follow} unfollow={this.props.unfollow}/>
         </>
     }
 }
@@ -70,8 +71,8 @@ const mapStateToProps = (state: AppStateType) => {
 
 export const UsersContainer = compose<React.ComponentType>(
     connect(mapStateToProps, {
-        followUser,
-        unfollowUser,
+        follow,
+        unfollow,
         setCurrentPage,
         requestUsers
     }),
