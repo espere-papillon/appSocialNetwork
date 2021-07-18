@@ -1,8 +1,9 @@
 import React from "react";
 import {UserType} from "../../redux/users-reducer";
-import userImg from "../../img/user.jpg";
 import styles from "./Users.module.css"
-import {NavLink} from "react-router-dom";
+import {Paginator} from "../common/Paginator/Paginator";
+import {User} from "./User";
+import {AppThunk} from "../../redux/redux-store";
 
 type dataPropsType = {
     users: Array<UserType>
@@ -11,8 +12,8 @@ type dataPropsType = {
     currentPage: number
     followingInProgress: Array<number>
     onPageChanged: (pageNumber: number) => void
-    follow: (id: string) => void
-    unfollow: (id: string) => void
+    follow: (id: string) => AppThunk
+    unfollow: (id: string) => AppThunk
 }
 
 export const Users: React.FC<dataPropsType> = props => {
@@ -27,48 +28,11 @@ export const Users: React.FC<dataPropsType> = props => {
         unfollow,
     } = props
 
-    let pagesCount = Math.ceil(totalUsersCount / pageSize)
-    console.log(pagesCount)
-    let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
-    }
-
     return <div className={styles.container}>
-        <div>
-            {pages.map(p => {
-                return <span className={currentPage === p ? styles.selectedPage : styles.allPage}
-                             onClick={(event) => onPageChanged(p)}>{p}</span>
-            })}
-        </div>
-        {users.map(user => <div key={user.id} className={styles.containerUser}>
-                <div className={styles.avatarFollow}>
-                    <div>
-                        <NavLink to={"/profile/" + user.id}>
-                            <img className={styles.avatar} src={user.photos.small !== null ? user.photos.small : userImg}
-                                 alt={"Avatar" + user.name}/>
-                        </NavLink>
-                    </div>
-                    {user.followed ?
-                        <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-                            unfollow(user.id.toString())
-                        }}>Unfollow</button> : <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-                            follow(user.id.toString())
-                        }}>Follow</button>}
-                </div>
-                <div className={styles.description}>
-                    <div className={styles.descriptionUser}>
-                        <span className={styles.userName}>{user.name}</span>
-                        <span className={styles.userStatus}>{user.status}</span>
-                    </div>
-                    <div className={styles.descriptionLocation}>
-                        <span className={styles.locationCity}>{"user.location.city"}</span>
-                        <span className={styles.locationCountry}>{"user.location.country"}</span>
-                    </div>
-                </div>
-            </div>
-        )
-        }
+        <Paginator totalUsersCount={totalUsersCount} pageSize={pageSize} currentPage={currentPage}
+                   onPageChanged={onPageChanged}/>
+        {users.map(user => <User user={user} followingInProgress={props.followingInProgress} follow={follow}
+                                 unfollow={unfollow}/>)}
     </div>
-
 }
+
