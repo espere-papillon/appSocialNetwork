@@ -29,7 +29,7 @@ export const Users: React.FC<dataPropsType> = props => {
     } = props
 
     return <div className={styles.container}>
-        <Paginator totalUsersCount={totalUsersCount} pageSize={pageSize} currentPage={currentPage}
+        <Paginator totalItemsCount={totalUsersCount} pageSize={pageSize} currentPage={currentPage} portionSize={15}
                    onPageChanged={onPageChanged}/>
         {users.map(user => <User user={user} followingInProgress={props.followingInProgress} follow={follow}
                                  unfollow={unfollow}/>)}
