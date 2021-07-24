@@ -27,7 +27,7 @@ type PathParamsType = {
 export type dataPropsType = RouteComponentProps<PathParamsType> & ownPropsType
 
 class ProfileContainer extends React.Component<dataPropsType, AppStateType> {
-    componentDidMount() {
+    refreshProfile() {
         let userId = this.props.match.params.userId
         if (!userId) {
             userId = this.props.authorizedUserId.toString()
@@ -37,6 +37,16 @@ class ProfileContainer extends React.Component<dataPropsType, AppStateType> {
         }
         this.props.getProfileUser(userId)
         this.props.getUserStatus(userId)
+    }
+
+    componentDidMount() {
+        this.refreshProfile()
+    }
+
+    componentDidUpdate(prevProps: Readonly<dataPropsType>, prevState: Readonly<AppStateType>, snapshot?: any) {
+        if(this.props.match.params.userId !== prevProps.match.params.userId) {
+            this.refreshProfile()
+        }
     }
 
     render() {
