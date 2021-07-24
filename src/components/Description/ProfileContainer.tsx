@@ -24,7 +24,7 @@ type ownPropsType = mapStatePropsType & mapDispatchPropsType
 type PathParamsType = {
     userId: string
 }
-type dataPropsType = RouteComponentProps<PathParamsType> & ownPropsType
+export type dataPropsType = RouteComponentProps<PathParamsType> & ownPropsType
 
 class ProfileContainer extends React.Component<dataPropsType, AppStateType> {
     componentDidMount() {
