@@ -1,6 +1,5 @@
 import {AppThunk} from "./redux-store";
 import {authAPI, profileAPI} from "../api/api";
-import {setTotalUsersCount, setUsers, toggleIsFetching} from "./users-reducer";
 
 export type PostType = {
     id?: string
@@ -61,6 +60,13 @@ export const setUserProfile = (profileUser: ProfileUserType) => {
     } as const
 }
 
+export const setProfilePhotoSuccess = (photos: PhotosUserType) => {
+    return {
+        type: "SET-PROFILE-PHOTO",
+        photos
+    } as const
+}
+
 export const setStatus = (status: string) => {
     return {
         type: "SET-STATUS",
@@ -72,6 +78,7 @@ export type ProfileActionsType =
     ReturnType<typeof addPost>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
+    | ReturnType<typeof setProfilePhotoSuccess>
     | ReturnType<typeof deletePost>
 
 let initialState = {
@@ -81,7 +88,7 @@ let initialState = {
         {id: "3", title: "Fine", likesCount: 4},
         {id: "4", title: "Thank u", likesCount: 10}
     ] as Array<PostType>,
-    profileUser: null as ProfileUserType | null,
+    profileUser: {} as ProfileUserType,
     status: "hey",
 }
 
@@ -111,8 +118,16 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
                 status: action.status
             }
         }
+        case "SET-PROFILE-PHOTO": {
+            debugger
+            return {
+                ...state,
+                profileUser: {...state.profileUser, photos: action.photos}
+
+            }
+        }
         case "DELETE-POST": {
-            return { ...state, posts: state.posts.filter(p => p.id !== action.postId)}
+            return {...state, posts: state.posts.filter(p => p.id !== action.postId)}
         }
         default:
             return state;
@@ -131,5 +146,12 @@ export const updateUserStatus = (status: string): AppThunk => async dispath => {
     const res = await profileAPI.updateStatus(status)
     if (res.data.resultCode === 0) {
         dispath(setStatus(status))
+    }
+}
+export const setProfilePhoto = (photo: any): AppThunk => async dispath => {
+    const res = await profileAPI.setProfilePhoto(photo)
+    if (res.data.resultCode === 0) {
+        debugger
+        dispath(setProfilePhotoSuccess({small: res.data.data.small, large: res.data.data.large}))
     }
 }
