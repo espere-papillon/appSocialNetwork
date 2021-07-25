@@ -51,7 +51,7 @@ export const authAPI = {
             .then(response => response.data)
     },
     login(email: string, password: string, rememberMe: boolean = false) {
-        return instance.post<ResponseType<{userId: number}>>(`auth/login`, {email, password, rememberMe})
+        return instance.post<ResponseType<{ userId: number }>>(`auth/login`, {email, password, rememberMe})
             .then(response => response.data)
     },
     logout() {
@@ -77,5 +77,14 @@ export const profileAPI = {
     },
     updateStatus(status: string) {
         return instance.put<ResponseType<{}>>(`profile/status/`, {status})
+    },
+    setProfilePhoto(photo: any) {
+        const formData = new FormData()
+        formData.append('image', photo)
+        return instance.put<ResponseType<{ small: string, large: string }>>(`profile/photo/`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
     }
 }

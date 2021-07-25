@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import styles from "../Description.module.css";
 import {ProfileUserType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
@@ -10,12 +10,21 @@ type dataPropsType = {
     profileUser: ProfileUserType | null
     status: string
     updateStatus: (status: string) => void
+    isOwner: boolean
+    savePhoto: (photo: any) => void
 }
 
 export function ProfileInfo(props: dataPropsType) {
     if (!props.profileUser) {
         return <Preloader />
     }
+
+    const onProfilePhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
+        if(e.target.files?.length) {
+            props.savePhoto(e.target.files[0])
+        }
+    }
+
     return (
         <div>
             <div className={styles.description}>
@@ -25,14 +34,15 @@ export function ProfileInfo(props: dataPropsType) {
             </div>
             <div className={styles.descriptionText}>
                 <h2>{props.profileUser.fullName}</h2>
-                <img src={props.profileUser.photos.large ? props.profileUser.photos.large : userImg} alt={"ava"}/>
+                <img src={props.profileUser.photos?.large || userImg} alt={"ava"}/>
+                {props.isOwner && <input type={'file'} onChange={onProfilePhotoSelected} />}
                 <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
                 <div>
                     {props.profileUser.aboutMe}
                 </div>
                 <div>
-                    <span>{` facebook: ${props.profileUser.contacts.facebook} `}</span>
-                    <span>{` github: ${props.profileUser.contacts.github} `}</span>
+                    <span>{` facebook: ${props.profileUser.photos!==undefined && props.profileUser.contacts.facebook} `}</span>
+                    <span>{` github: ${props.profileUser.photos!==undefined && props.profileUser.contacts.github} `}</span>
                 </div>
                 <div>
                     <span>{"Looking for a job: "}</span>
