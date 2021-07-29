@@ -1,6 +1,6 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useState} from "react";
 import styles from "../Description.module.css";
-import {ProfileUserType} from "../../../redux/profile-reducer";
+import {ContactsUserType, ProfileUserType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
 import userImg from "../../../img/user.jpg";
 import {ProfileStatus} from "./ProfileStatus";
@@ -15,6 +15,8 @@ type dataPropsType = {
 }
 
 export function ProfileInfo(props: dataPropsType) {
+    const [editMode, setEdtMode] = useState(false)
+
     if (!props.profileUser) {
         return <Preloader />
     }
@@ -37,7 +39,8 @@ export function ProfileInfo(props: dataPropsType) {
                 <img src={props.profileUser.photos?.large || userImg} alt={"ava"}/>
                 {props.isOwner && <input type={'file'} onChange={onProfilePhotoSelected} />}
                 <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
-                <ProfileBlock profileUser={props.profileUser}/>
+                {!editMode && <ProfileBlock profileUser={props.profileUser} isOwner={props.isOwner} setEditMode={setEdtMode} />}
+                {/*{editMode && <ProfileDataForm />}*/}
             </div>
         </div>
     )
@@ -52,15 +55,15 @@ const ContactInfo: React.FC<ContactInfoTypeProps> = (props) => {
     return <div className={styles.contact}><b>{props.contactKey}: </b>{props.contactInfo}</div>
 }
 
-const ProfileBlock = (props: {profileUser: ProfileUserType}) => {
+const ProfileBlock = (props: {profileUser: ProfileUserType, isOwner: boolean, setEditMode: (editMode: boolean) => void}) => {
     return(
         <>
+            {props.isOwner && <button onClick={() => props.setEditMode(true)}>Edit</button>}
             <div>
                 {props.profileUser.aboutMe}
             </div>
             {props.profileUser.contacts && <div>{Object.keys(props.profileUser.contacts).map(key => {
-                // @ts-ignore
-                return <ContactInfo key={key} contactKey={key} contactInfo={props.profileUser.contacts[key]}/>
+                return <ContactInfo key={key} contactKey={key} contactInfo={props.profileUser.contacts[key as keyof ContactsUserType]}/>
             })}</div>}
             <div>
                 <span>{"Looking for a job: "}</span>
