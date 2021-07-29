@@ -1,9 +1,0 @@
-.post {
-    grid-area: h;
-    background-color: hotpink;
-    padding-top: 20px;
-}
-
-.post img {
-    width: 50px;
-}
