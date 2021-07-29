@@ -3,18 +3,16 @@ import './index.css';
 import App from './App';
 import {store} from './redux/redux-store';
 import {Provider} from "react-redux";
-import {BrowserRouter} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 
 
 export const AppContainer = () => {
-    return(
-        <React.StrictMode>
+    return (
+        <HashRouter basename={process.env.PUBLIC_URL}>
             <Provider store={store}>
-                <BrowserRouter>
-                    <App/>
-                </BrowserRouter>
+                <App/>
             </Provider>
-        </React.StrictMode>)
+        </HashRouter>)
 }
 
 
