@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useState} from "react";
 import styles from "../Description.module.css";
 import {ContactsUserType, ProfileUserType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
@@ -15,6 +15,8 @@ type dataPropsType = {
 }
 
 export function ProfileInfo(props: dataPropsType) {
+    const [editMode, setEdtMode] = useState(false)
+
     if (!props.profileUser) {
         return <Preloader />
     }
@@ -37,7 +39,8 @@ export function ProfileInfo(props: dataPropsType) {
                 <img src={props.profileUser.photos?.large || userImg} alt={"ava"}/>
                 {props.isOwner && <input type={'file'} onChange={onProfilePhotoSelected} />}
                 <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
-                <ProfileBlock profileUser={props.profileUser} isOwner={props.isOwner}/>
+                {!editMode && <ProfileBlock profileUser={props.profileUser} isOwner={props.isOwner} setEditMode={setEdtMode} />}
+                {/*{editMode && <ProfileDataForm />}*/}
             </div>
         </div>
     )
@@ -52,10 +55,10 @@ const ContactInfo: React.FC<ContactInfoTypeProps> = (props) => {
     return <div className={styles.contact}><b>{props.contactKey}: </b>{props.contactInfo}</div>
 }
 
-const ProfileBlock = (props: {profileUser: ProfileUserType, isOwner: boolean}) => {
+const ProfileBlock = (props: {profileUser: ProfileUserType, isOwner: boolean, setEditMode: (editMode: boolean) => void}) => {
     return(
         <>
-            {props.isOwner && <button disabled>Edit</button>}
+            {props.isOwner && <button onClick={() => props.setEditMode(true)}>Edit</button>}
             <div>
                 {props.profileUser.aboutMe}
             </div>
