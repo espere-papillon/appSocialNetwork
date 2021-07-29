@@ -1,15 +1,11 @@
-import React from 'react';
+import React, {ComponentType, lazy, Suspense} from 'react';
 import './App.css';
-import {Header} from "./components/Header/Header";
 import {Navbar} from "./components/Navbar/Navbar";
-import {Description} from "./components/Description/Description";
-import {BrowserRouter, Route, withRouter} from "react-router-dom";
+import {Route, withRouter} from "react-router-dom";
 import {Settings} from './components/Settings/Settings';
 import {Music} from './components/Music/Music';
 import {News} from './components/News/News';
-import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
-import {ProfileUserContainer} from "./components/Description/ProfileContainer";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
 import {LoginContainer} from "./components/Login/Login";
 import {connect} from "react-redux";
@@ -17,6 +13,16 @@ import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import {AppStateType} from "./redux/redux-store";
 import {Preloader} from "./components/common/Preloader/Preloader";
+import {withSuspense} from "./hoc/withSuspense";
+import {dataPropsType} from "./components/Description/ProfileContainer";
+const DialogsContainer = lazy(() =>
+    import('./components/Dialogs/DialogsContainer')
+        .then(({ DialogsContainer }) => ({ default: DialogsContainer })),
+);
+const ProfileUserContainer = lazy(() =>
+    import('./components/Description/ProfileContainer')
+        .then(({ ProfileUserContainer }) => ({ default: ProfileUserContainer })),
+);
 
 type mapStatePropsType = {
     initialized: boolean
@@ -26,6 +32,9 @@ type mapDispatchPropsType = {
 }
 
 type AppPropsType = mapStatePropsType & mapDispatchPropsType
+
+const SuspendedDialogs = withSuspense(DialogsContainer)
+const SuspendedProfile = withSuspense(ProfileUserContainer)
 
 class App extends React.Component<AppPropsType> {
     componentDidMount() {
@@ -41,13 +50,11 @@ class App extends React.Component<AppPropsType> {
                 <HeaderContainer/>
                 <Navbar/>
                 <div className={"app-wrapper-content"}>
-                    <Route path={"/dialogs"} render={() => <DialogsContainer/>}/>
+                    <Route path={"/dialogs"} render={ () => <SuspendedDialogs />}/>
                     <Route path={"/users"} render={() => <UsersContainer/>}/>
-                    <Route path={"/profile/:userId?"}
-                           render={() => <ProfileUserContainer/>}/>
+                    <Route path={"/profile/:userId?"} render={() => <SuspendedProfile />}/>
                     <Route path={"/news"} render={() => <News/>}/>
                     <Route path={"/music"} render={() => <Music/>}/>
-                    {/*<Route path={"/saved"} component={Saved}/>*/}
                     <Route path={"/settings"} render={() => <Settings/>}/>
                     <Route path={"/login"} render={() => <LoginContainer/>}/>
                 </div>
