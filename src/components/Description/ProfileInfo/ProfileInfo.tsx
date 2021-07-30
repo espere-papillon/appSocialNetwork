@@ -5,6 +5,7 @@ import {Preloader} from "../../common/Preloader/Preloader";
 import userImg from "../../../img/user.jpg";
 import {ProfileStatus} from "./ProfileStatus";
 import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
+import {ProfileDataFormReduxForm} from "./ProfileDataForm";
 
 type dataPropsType = {
     profileUser: ProfileUserType | null
@@ -40,7 +41,7 @@ export function ProfileInfo(props: dataPropsType) {
                 {props.isOwner && <input type={'file'} onChange={onProfilePhotoSelected} />}
                 <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
                 {!editMode && <ProfileBlock profileUser={props.profileUser} isOwner={props.isOwner} setEditMode={setEdtMode} />}
-                {/*{editMode && <ProfileDataForm />}*/}
+                {editMode && <ProfileDataFormReduxForm />}
             </div>
         </div>
     )
