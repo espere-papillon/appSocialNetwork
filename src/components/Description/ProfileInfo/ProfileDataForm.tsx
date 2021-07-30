@@ -2,10 +2,8 @@ import React from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Element} from "../../common/FormControls/FormControls";
 import {required} from "../../../utils/validators/validators";
-import {connect} from "react-redux";
 import {AppStateType} from "../../../redux/redux-store";
-import {Redirect} from "react-router-dom";
-import styles from "../common/FormControls/FormControls.module.css"
+import stylesForm from "../../common/FormControls/FormControls.module.css"
 import {ProfileUserType} from "../../../redux/profile-reducer";
 
 type FormDataType = {
@@ -30,7 +28,7 @@ const ProfileDataForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
             <div>
                 <Field type={"checkbox"} name={"lookingForAJob"} component={"input"}/> Looking for a job
             </div>
-            {props.error && <div className={styles.formSummaryError}>
+            {props.error && <div className={stylesForm.formSummaryError}>
                 {props.error}
             </div>}
             <div>
