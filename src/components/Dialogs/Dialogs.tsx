@@ -1,9 +1,8 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import styles from "./Dialogs.module.css";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogItemType, MessageType} from "../../redux/dialogs-reducer";
-import { Redirect } from "react-router-dom";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Element} from "../common/FormControls/FormControls";
 import {maxLengthCreator, required} from "../../utils/validators/validators";

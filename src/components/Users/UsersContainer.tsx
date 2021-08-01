@@ -1,17 +1,13 @@
 import {connect} from "react-redux";
 import {AppStateType, AppThunk} from "../../redux/redux-store";
 import {
-    follow,
-    followUser, requestUsers,
-    setCurrentPage, unfollow,
-    unfollowUser,
-    UserType
+    follow, requestUsers,
+    setCurrentPage, unfollow,UserType
 } from "../../redux/users-reducer";
 import React from "react";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
 import {compose} from "redux";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {
     getCurrentPage,
     getFollowingInProgress,
