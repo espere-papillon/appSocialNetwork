@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import styles from "./Posts.module.css";
 import {Post} from "./Post/Post";
 import {PostType} from "../../../redux/profile-reducer";
@@ -16,7 +16,7 @@ type dataAddPostPropsType = {
 }
 
 export const Posts: React.FC<postsPropsType> = React.memo((props) => {
-    let postsElements = props.posts.map(post => <Post title={post.title}
+    let postsElements = props.posts.map(post => <Post key={post.id} title={post.title}
                                                       likesCount={post.likesCount}/>)
 
     let addNewPost = (values: dataAddPostPropsType) => {

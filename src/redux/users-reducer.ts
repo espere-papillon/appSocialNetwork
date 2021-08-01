@@ -1,4 +1,4 @@
-import {authAPI, userAPI} from "../api/api";
+import {userAPI} from "../api/api";
 import {AppThunk} from "./redux-store";
 
 export type LocationUserType = {
@@ -15,7 +15,6 @@ export type UserType = {
     followed: boolean
     name: string
     status: string
-    //location: LocationUserType
 }
 
 
