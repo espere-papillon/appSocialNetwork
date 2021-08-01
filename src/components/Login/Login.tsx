@@ -3,7 +3,7 @@ import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Element} from "../common/FormControls/FormControls";
 import {required} from "../../utils/validators/validators";
 import {connect} from "react-redux";
-import {login, logout} from "../../redux/auth-reducer";
+import {login} from "../../redux/auth-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {Redirect} from "react-router-dom";
 import styles from "../common/FormControls/FormControls.module.css"
@@ -12,7 +12,6 @@ type FormDataType = {
     email: string
     password: string
     rememberMe: boolean
-    // login: (email: string, password: string, rememberMe: boolean) => void
 }
 
 type PropsType = {

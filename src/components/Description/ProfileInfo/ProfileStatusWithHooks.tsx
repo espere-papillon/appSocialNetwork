@@ -1,4 +1,4 @@
-import React, {ChangeEvent, ChangeEventHandler, useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 
 type ProfileStatusPropsType = {
     status: string

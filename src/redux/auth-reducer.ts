@@ -1,6 +1,5 @@
 import {AppThunk} from "./redux-store";
 import {authAPI} from "../api/api";
-import {toggleIsFollowingInProgress, unfollowUser} from "./users-reducer";
 import {stopSubmit} from "redux-form";
 import {FormAction} from "redux-form/lib/actions";
 

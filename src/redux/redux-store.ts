@@ -1,4 +1,4 @@
-import {createStore, combineReducers, Store, applyMiddleware, compose} from "redux"
+import {createStore, combineReducers, applyMiddleware, compose} from "redux"
 import {ProfileActionsType, profileReducer} from "./profile-reducer";
 import {DialogsActionsType, dialogsReducer} from "./dialogs-reducer";
 import {UsersActionsType, usersReducer} from "./users-reducer";
@@ -17,6 +17,8 @@ let rootReducer = combineReducers({
 })
 
 export type AppStateType = ReturnType<typeof rootReducer>
+
+export type GetAppStateType = () => AppStateType;
 
 export type AppActionType = ProfileActionsType | DialogsActionsType | UsersActionsType | AuthUsersActionsType | AuthAppActionsType
 

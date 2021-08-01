@@ -1,5 +1,6 @@
-import {AppThunk} from "./redux-store";
+import {AppThunk, GetAppStateType} from "./redux-store";
 import {authAPI, profileAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 export type PostType = {
     id?: string
@@ -41,7 +42,6 @@ export const addPost = (newPostText: string) => {
     return {
         type: "ADD-POST",
         newPostText
-        // newPostText: store.getState().newPostText
     } as const
 }
 
@@ -49,7 +49,6 @@ export const deletePost = (postId: string) => {
     return {
         type: "DELETE-POST",
         postId
-        // newPostText: store.getState().newPostText
     } as const
 }
 
@@ -67,6 +66,13 @@ export const setProfilePhotoSuccess = (photos: PhotosUserType) => {
     } as const
 }
 
+export const setProfileSuccess = (profile: ProfileUserType) => {
+    return {
+        type: "SET-PROFILE",
+        profile
+    } as const
+}
+
 export const setStatus = (status: string) => {
     return {
         type: "SET-STATUS",
@@ -80,6 +86,7 @@ export type ProfileActionsType =
     | ReturnType<typeof setStatus>
     | ReturnType<typeof setProfilePhotoSuccess>
     | ReturnType<typeof deletePost>
+    | ReturnType<typeof setProfileSuccess>
 
 let initialState = {
     posts: [
@@ -119,10 +126,16 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
             }
         }
         case "SET-PROFILE-PHOTO": {
-            debugger
             return {
                 ...state,
                 profileUser: {...state.profileUser, photos: action.photos}
+
+            }
+        }
+        case "SET-PROFILE": {
+            return {
+                ...state,
+                profileUser: {...state.profileUser, fullName: action.profile.fullName, aboutMe: action.profile.aboutMe, lookingForAJob: action.profile.lookingForAJob, lookingForAJobDescription: action.profile.lookingForAJobDescription, contacts: action.profile.contacts}
 
             }
         }
@@ -148,10 +161,20 @@ export const updateUserStatus = (status: string): AppThunk => async dispath => {
         dispath(setStatus(status))
     }
 }
-export const setProfilePhoto = (photo: any): AppThunk => async dispath => {
+export const setProfilePhoto = (photo: File): AppThunk => async dispath => {
     const res = await profileAPI.setProfilePhoto(photo)
     if (res.data.resultCode === 0) {
         debugger
         dispath(setProfilePhotoSuccess({small: res.data.data.small, large: res.data.data.large}))
+    }
+}
+export const setProfile = (profile: ProfileUserType): AppThunk => async (dispath, getState: GetAppStateType) => {
+    const userId = getState().auth.data.id
+    const res = await profileAPI.setProfileInfo(profile)
+    if (res.data.resultCode === 0) {
+        debugger
+        dispath(getProfileUser(userId.toString()))
+    } else {
+        dispath(stopSubmit("edit-profile", {_error: res.data.messages[0]}))
     }
 }
