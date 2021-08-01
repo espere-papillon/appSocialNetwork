@@ -1,6 +1,6 @@
 import axios from "axios";
-import {DataUserLoginType, setAuthUserData} from "../redux/auth-reducer";
-import {ProfileUserType} from "../redux/profile-reducer";
+import {DataUserLoginType} from "../redux/auth-reducer";
+import {ContactsUserType, ProfileUserType} from "../redux/profile-reducer";
 
 const instance = axios.create({
     withCredentials: true,
@@ -61,8 +61,6 @@ export const authAPI = {
     getProfile(userId: string) {
         console.warn('Obsolete method. Please use profileAPI object.')
         return profileAPI.getProfile(userId)
-        // return instance.get<ProfileUserType>(`profile/` + userId)
-        //     .then(response => response.data)
     }
 }
 
@@ -86,5 +84,8 @@ export const profileAPI = {
                 'Content-Type': 'multipart/form-data'
             }
         })
+    },
+    setProfileInfo(profile: ProfileUserType) {
+        return instance.put<ResponseType<{}>>(`profile/`, profile)
     }
 }
