@@ -2,34 +2,41 @@ import React from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Element} from "../../common/FormControls/FormControls";
 import {required} from "../../../utils/validators/validators";
-import {AppStateType} from "../../../redux/redux-store";
 import stylesForm from "../../common/FormControls/FormControls.module.css"
+import styles from "../Description.module.css";
 import {ProfileUserType} from "../../../redux/profile-reducer";
 
 type FormDataType = {
-    profileUser: ProfileUserType
-}
-
-type PropsType = {
-
+    profile: ProfileUserType
 }
 
 const Input = Element("input")
+const TextArea = Element("textarea")
 
-const ProfileDataForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+const ProfileDataForm: React.FC<InjectedFormProps<ProfileUserType, FormDataType> & FormDataType> = ({handleSubmit, error, profile}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <Field placeholder={"Name"} name={"fullName"} validate={[required]} component={Input}/>
             </div>
             <div>
-                <Field placeholder={"About me"} name={"aboutMe"} component={Input}/>
+                <Field placeholder={"About me"} name={"aboutMe"} component={TextArea}/>
             </div>
             <div>
                 <Field type={"checkbox"} name={"lookingForAJob"} component={"input"}/> Looking for a job
             </div>
-            {props.error && <div className={stylesForm.formSummaryError}>
-                {props.error}
+            <div>
+                <Field placeholder={"My professional skills"} name={"lookingForAJobDescription"} component={TextArea}/>
+            </div>
+            <div>
+                <b>Contacts: </b> {Object.keys(profile.contacts).map(key => {
+                    return <div className={styles.contact}>
+                        <b>{key}: </b><Field placeholder={key} name={"contacts." + key} component={Input}/>
+                    </div>
+            })}
+            </div>
+            {error && <div className={stylesForm.formSummaryError}>
+                {error}
             </div>}
             <div>
                 <button>Save</button>
@@ -38,19 +45,5 @@ const ProfileDataForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     )
 }
 
-export const ProfileDataFormReduxForm = reduxForm<FormDataType>({form: 'edit-profile'})(ProfileDataForm)
+export const ProfileDataFormReduxForm = reduxForm<ProfileUserType, FormDataType>({form: 'edit-profile'})(ProfileDataForm)
 
-export const Login:React.FC<PropsType> = (props) => {
-
-    return (
-        <div>
-
-        </div>
-    )
-}
-
-const mapStateToProps = (state: AppStateType) => {
-    return {
-        isAuth: state.auth.isAuth
-    }
-}
